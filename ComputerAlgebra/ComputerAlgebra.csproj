@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4C4EA496-89A1-4FE1-B18C-28E2577A2151}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AIRLab.CA</RootNamespace>
+    <AssemblyName>ComputerAlgebra</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComputerAlgebra.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Regression\ConsoleGui.cs" />
+    <Compile Include="Regression\RegressionAlgorithm.cs" />
+    <Compile Include="Regression\RegressionStopCondition.cs" />
+    <Compile Include="Resolution\ResolutionService.cs" />
+    <Compile Include="Resolution\UnificationService.cs" />
+    <Compile Include="SampleGenerator.cs" />
+    <Compile Include="Tests\RegressionTests\RegressionTests.cs" />
+    <Compile Include="Tests\ResolutionTests\ResolutionTests.cs" />
+    <Compile Include="Tests\TreeTests\ComplexTests.cs" />
+    <Compile Include="Tests\TreeTests\DifferentiationTest.cs" />
+    <Compile Include="Tests\TreeTests\NodeTest.cs" />
+    <Compile Include="Tests\TreeTests\RulesTest.cs" />
+    <Compile Include="Tests\TreeTests\SimpleTests.cs" />
+    <Compile Include="Tests\TreeTests\Tests.cs" />
+    <Compile Include="Tree\Nodes\FunctionNode.cs" />
+    <Compile Include="Tree\Nodes\ITermNode.cs" />
+    <Compile Include="Tree\Nodes\PredicateNode.cs" />
+    <Compile Include="Tree\Nodes\SkolemPredicateNode.cs" />
+    <Compile Include="Tree\Nodes\TermNode.cs" />
+    <Compile Include="Tree\Op\BinaryOp.cs" />
+    <Compile Include="Tree\Nodes\ConstantNode.cs" />
+    <Compile Include="Tree\Op\MultpleOp.cs" />
+    <Compile Include="Tree\Op\TernaryOp.cs" />
+    <Compile Include="Tree\Op\UnaryOp.cs" />
+    <Compile Include="Tree\Nodes\VariableNode.cs" />
+    <Compile Include="Tree\RulesCollection\DifferentiationRules.cs" />
+    <Compile Include="Tree\RulesCollection\RegressionRules.cs" />
+    <Compile Include="Tree\RulesCollection\BasicRules.cs" />
+    <Compile Include="Tree\RulesCollection\LogicRules.cs" />
+    <Compile Include="Tree\RulesCollection\AlgebraicRules.cs" />
+    <Compile Include="Tree\RulesCollection\ResolutionRule.cs" />
+    <Compile Include="Tree\RulesCollection\Tags.cs" />
+    <Compile Include="Tree\RulesCollection\ComparisonRules.cs" />
+    <Compile Include="Tree\Rules\BasicSelector.cs" />
+    <Compile Include="Tree\Rules\ComplexSelector.cs" />
+    <Compile Include="Tree\Rules\Generated.cs" />
+    <Compile Include="Tree\Rules\ModInput.cs" />
+    <Compile Include="Tree\Rules\Rule.cs" />
+    <Compile Include="Tree\Rules\SelectClauseNode.cs" />
+    <Compile Include="Tree\Rules\SelectOutput.cs" />
+    <Compile Include="Tree\Rules\WhereOutput.cs" />
+    <Compile Include="Tree\Tools\CABoolean.cs" />
+    <Compile Include="Tree\Tools\Exceptions.cs" />
+    <Compile Include="Tree\Tools\Expressions2LogicTree.cs" />
+    <Compile Include="Tree\Tools\Expressions2Tree.cs" />
+    <Compile Include="Tree\Tools\Helper.cs" />
+    <Compile Include="Tree\Tools\NodeElementNames.cs" />
+    <Compile Include="Tree\Tools\String2Tree.cs" />
+    <Compile Include="Tree\Tools\RPNParser.cs" />
+    <Compile Include="Tree\Tools\Simplifier.cs" />
+    <Compile Include="Tree\Nodes\INode.cs" />
+    <Compile Include="Tree\Nodes\Node.cs" />
+    <Compile Include="Tree\Tools\Tree2Expression.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeneticAlgorithms\GenericAlgorithms.csproj">
+      <Project>{F4D3519E-7891-4A76-B835-FBF164929B14}</Project>
+      <Name>GenericAlgorithms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Copyright.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
