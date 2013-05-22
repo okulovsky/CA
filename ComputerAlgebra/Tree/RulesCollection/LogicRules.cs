@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using AIRLab.CA.Resolution;
 using AIRLab.CA.Rules;
 using AIRLab.CA.Tree;
-using AIRLab.GeneticAlgorithms;
 
 namespace AIRLab.CA.RulesCollection
 {
@@ -73,17 +72,7 @@ namespace AIRLab.CA.RulesCollection
                 .Where<Logic.Or, Logic.Not, INode, INode>(z => UnificationService.IsSame(z.C, z.D, true))
                 .Mod(z => z.A.Replace(Constant.Bool(true)));
 
-            yield return Rule
-                .New("Intro !", StdTags.Inductive, StdTags.Logic, StdTags.UnsafeBlowing)
-                .Select(AnyA)
-                .Where<INode<bool>>()
-                .Mod(z => z.A.Replace(new Logic.Not(z.A.Node)));
 
-            yield return Rule
-                .New("Intro B", StdTags.Tunning, StdTags.Logic)
-                .Select(AnyA)
-                .Where<INode<bool>>()
-                .Mod(z => z.A.Replace(Constant.Bool(Rnd.RandomBool())));
         }
     }
 }
