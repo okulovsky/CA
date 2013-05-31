@@ -1,6 +1,6 @@
-﻿// ComputerAlgebra Library
+// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
+// Copyright � Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
@@ -9,11 +9,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using AIRLab.CA.Rules;
 using AIRLab.CA.Tree;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AIRLab.CA.Tests
+namespace Tests.TreeTests
 {
-    [TestFixture]
+    [TestClass]
     public class RulesTest : SelectClauseWriter
     {
         INode _root1 =
@@ -38,7 +38,7 @@ namespace AIRLab.CA.Tests
                 new TestOp(
                     new TestOp()));
 
-        [Test]
+        [TestMethod]
         public void Test()
         {
             Test(12, AnyA, _root1);
@@ -62,7 +62,7 @@ namespace AIRLab.CA.Tests
             var clauses = q.Take(num).Select(z => (SelectClauseNode) z).ToArray();
             var roots = q.Skip(num).Select(z => (INode) z).ToArray();
             var selector = new ComplexSelector(clauses);
-            Assert.That(selector.Select(roots).Count() == expectedCount);
+            Assert.IsTrue(selector.Select(roots).Count() == expectedCount);
         }
     }
 

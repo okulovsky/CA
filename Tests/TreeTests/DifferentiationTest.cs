@@ -1,16 +1,17 @@
-﻿using System;
+using System;
 using System.Linq.Expressions;
+using AIRLab.CA;
 using AIRLab.CA.Tools;
 using AIRLab.CA.Tree;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AIRLab.CA.Tests
+namespace Tests.TreeTests
 {
-    [TestFixture]
-    class DifferentiationTest : Tests
+    [TestClass]
+    public class DifferentiationTest : Tests
     {
         // (-x) dif x => -1
-        [Test]
+        [TestMethod]
         public void DiffNegate()
         {
             Expression<del1> expression = (x) => -x;
@@ -20,7 +21,7 @@ namespace AIRLab.CA.Tests
         }
 
         // (x+y) dif x => 1
-        [Test]
+        [TestMethod]
         public void DiffPlus()
         {
             Expression<del2> expression = (x, y) => x + y;
@@ -29,7 +30,7 @@ namespace AIRLab.CA.Tests
                 "1");
         }
         // (x-y) dif x => 1
-        [Test]
+        [TestMethod]
         public void DiffMinus()
         {
             Expression<del2> expression = (x, y) => x - y;
@@ -38,7 +39,7 @@ namespace AIRLab.CA.Tests
                 "1");
         }
         // (x*y) dif x => y
-        [Test]
+        [TestMethod]
         public void DiffProduct()
         {
             Expression<del2> expression = (x, y) => x * y;
@@ -47,7 +48,7 @@ namespace AIRLab.CA.Tests
                 "y");
         }
         // (x/y) dif x => y/y^2
-        [Test]
+        [TestMethod]
         public void DiffDivide()
         {
             Expression<del2> expression = (x, y) => x / y;
@@ -59,7 +60,7 @@ namespace AIRLab.CA.Tests
         }
 
         // (x^C) dif x => C*x^(C-1)
-        [Test]
+        [TestMethod]
         public void DiffPowConstant()
         {
             Expression<del1> expression = (x) => Math.Pow(x, 3);
@@ -69,7 +70,7 @@ namespace AIRLab.CA.Tests
         }
 
         // (Ln(x)) dif x => 1/x
-        [Test]
+        [TestMethod]
         public void DiffLn()
         {
             Expression<del1> expression = (x) => Math.Log(x);
@@ -79,7 +80,7 @@ namespace AIRLab.CA.Tests
         }
         
         // (x^y) dif x => ((x^y)*(y/y))
-        [Test]
+        [TestMethod]
         public void DiffPowX()
         {
             Expression<del2> expression = (x, y) => Math.Pow(x, y);
@@ -94,7 +95,7 @@ namespace AIRLab.CA.Tests
                         VariableNode.Make<double>(0, "x"))).ToString());
         }
         // (x^y) dif y => ((x^y)*(Ln(y)))
-        [Test]
+        [TestMethod]
         public void DiffPowY()
         {
             Expression<del2> expression = (x, y) => Math.Pow(x, y);

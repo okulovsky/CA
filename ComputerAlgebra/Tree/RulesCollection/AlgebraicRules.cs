@@ -11,16 +11,8 @@ using AIRLab.CA.Tree;
 
 namespace AIRLab.CA.RulesCollection
 {
-
-
-
     public class AlgebraicRules : SelectClauseWriter
     {
-        public static int RandomMin;
-        public static int RandomMax;
-
-        private static readonly Random Rnd = new Random();
-
         public static IEnumerable<Rule> Get()
         {
             yield return Rule
@@ -107,7 +99,17 @@ namespace AIRLab.CA.RulesCollection
                 .Where<Arithmetic.Divide<double>, Constant<double>, Constant<double>>()
                 .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value / z.C.Node.Value)));
 
-   
+            yield return Rule
+                .New("(x+C)+C", StdTags.Algebraic, StdTags.Simplification)
+                .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
+                .Where<Arithmetic.Plus, Arithmetic.Plus, INode, Constant<double>, Constant<double>>()
+                .Mod(z => z.A.Replace(new Arithmetic.Plus<double>(z.C.Node, Constant.Double(z.D.Node.Value + z.E.Node.Value))));
+
+            yield return Rule
+                .New("(x-C)+C", StdTags.Algebraic, StdTags.Simplification)
+                .Select(AnyA[ChildB[C, D], ChildE])
+                .Where<Arithmetic.Plus, Arithmetic.Minus, INode, Constant<double>, Constant<double>>()
+                .Mod(z => z.A.Replace(new Arithmetic.Plus<double>(z.C.Node, Constant.Double(z.E.Node.Value - z.D.Node.Value))));
         }
     }
 }

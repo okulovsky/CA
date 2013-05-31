@@ -5,14 +5,14 @@
 //
 
 using AIRLab.CA.Tree;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AIRLab.CA.Tests
+namespace Tests.TreeTests
 {
-    [TestFixture]
+    [TestClass]
     public class NodeTest
     {
-        [Test]
+        [TestMethod]
         public void TreeHasCorrectStringForm()
         {
             var tree = new Arithmetic.Product<int>(VariableNode.Make<int>(0, "x"),
@@ -25,7 +25,7 @@ namespace AIRLab.CA.Tests
             Assert.AreEqual(tree2.ToString(), "P(x) V Q(y,z) V H(f(x),c)");
         }
 
-        [Test]
+        [TestMethod]
         public void NodesKeepProperInfo()
         {
             var constant = Constant.Int(1);

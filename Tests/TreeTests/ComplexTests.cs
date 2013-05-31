@@ -5,18 +5,17 @@
 //
 
 using System;
-using AIRLab.CA.Tree;
-using NUnit.Framework;
 using System.Linq.Expressions;
-using AIRLab.CA.Tools;
+using AIRLab.CA.Tree;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AIRLab.CA.Tests
+namespace Tests.TreeTests
 {
-    [TestFixture]
+    [TestClass]
     public class ComplexTests : Tests
     {        
         // ((x+y)+0)*1 => x+y
-        [Test]
+        [TestMethod]
         public void FirstLevel()
         {
             Expression<del2> expression = (x, y) => ((x + y) + 0) * 1;
@@ -25,7 +24,7 @@ namespace AIRLab.CA.Tests
                  new Arithmetic.Plus<double>(VariableNode.Make<double>(0, "x"), VariableNode.Make<double>(1, "y")).ToString());
         }
         // ((((x^1)-0)-((3+2)+(0/1)))∙y) => (x-5)*y
-        [Test]
+        [TestMethod]
         public void SecondLevel()
         {
             Expression<del2> expression = (x, y) => (((Math.Pow(x, 1)-0)-((3+2)+(0/1)))*y);

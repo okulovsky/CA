@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -42,17 +39,8 @@
     <Compile Include="Regression\ConsoleGui.cs" />
     <Compile Include="Regression\RegressionAlgorithm.cs" />
     <Compile Include="Regression\RegressionStopCondition.cs" />
-    <Compile Include="Resolution\ResolutionService.cs" />
     <Compile Include="Resolution\UnificationService.cs" />
     <Compile Include="SampleGenerator.cs" />
-    <Compile Include="Tests\RegressionTests\RegressionTests.cs" />
-    <Compile Include="Tests\ResolutionTests\ResolutionTests.cs" />
-    <Compile Include="Tests\TreeTests\ComplexTests.cs" />
-    <Compile Include="Tests\TreeTests\DifferentiationTest.cs" />
-    <Compile Include="Tests\TreeTests\NodeTest.cs" />
-    <Compile Include="Tests\TreeTests\RulesTest.cs" />
-    <Compile Include="Tests\TreeTests\SimpleTests.cs" />
-    <Compile Include="Tests\TreeTests\Tests.cs" />
     <Compile Include="Tree\Nodes\FunctionNode.cs" />
     <Compile Include="Tree\Nodes\ITermNode.cs" />
     <Compile Include="Tree\Nodes\PredicateNode.cs" />
@@ -66,12 +54,11 @@
     <Compile Include="Tree\Nodes\VariableNode.cs" />
     <Compile Include="Tree\RulesCollection\DifferentiationRules.cs" />
     <Compile Include="Tree\RulesCollection\RegressionRules.cs" />
-    <Compile Include="Tree\RulesCollection\BasicRules.cs" />
     <Compile Include="Tree\RulesCollection\LogicRules.cs" />
     <Compile Include="Tree\RulesCollection\AlgebraicRules.cs" />
     <Compile Include="Tree\RulesCollection\ResolutionRule.cs" />
+    <Compile Include="Tree\Tools\RulesLibrary.cs" />
     <Compile Include="Tree\RulesCollection\Tags.cs" />
-    <Compile Include="Tree\RulesCollection\ComparisonRules.cs" />
     <Compile Include="Tree\Rules\BasicSelector.cs" />
     <Compile Include="Tree\Rules\ComplexSelector.cs" />
     <Compile Include="Tree\Rules\Generated.cs" />
@@ -86,18 +73,9 @@
     <Compile Include="Tree\Tools\Expressions2Tree.cs" />
     <Compile Include="Tree\Tools\Helper.cs" />
     <Compile Include="Tree\Tools\NodeElementNames.cs" />
-    <Compile Include="Tree\Tools\String2Tree.cs" />
-    <Compile Include="Tree\Tools\RPNParser.cs" />
-    <Compile Include="Tree\Tools\Simplifier.cs" />
     <Compile Include="Tree\Nodes\INode.cs" />
     <Compile Include="Tree\Nodes\Node.cs" />
     <Compile Include="Tree\Tools\Tree2Expression.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GeneticAlgorithms\GenericAlgorithms.csproj">
-      <Project>{F4D3519E-7891-4A76-B835-FBF164929B14}</Project>
-      <Name>GenericAlgorithms</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Copyright.txt" />

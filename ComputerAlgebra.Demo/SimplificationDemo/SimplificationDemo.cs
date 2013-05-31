@@ -1,40 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// ComputerAlgebra Library
+//
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+//
+
+using System;
+using System.Linq.Expressions;
 using AIRLab.CA;
 using AIRLab.CA.Tools;
-using AIRLab.CA.Tree;
 
 namespace SimplificationDemo
 {
     class SimplificationDemo
     {
+        protected delegate double del4(double p1, double p2, double p3, double p4);
         static void Main()
         {
-            Console.WriteLine("Enter the expression like '(3*x+y^2)*z' or type 'r' to generate random expression:");
-            try
+           try
             {
-                while (true)
-                {
-                    var formula = Console.ReadLine();
-                    var node = formula.Equals("r")
-                                   ? new SampleGenerator(2, 6, 0.0).GetFormula()
-                                   : String2Tree.Parse(formula);
-                    Console.WriteLine("Parsed tree:\n" + node);
-                    Console.WriteLine("Press any key to simplify...");
-                    Console.ReadKey(true);
-                    var result = ComputerAlgebra.Simplify(node);
-                    Console.WriteLine("Result of simplification:\n " + result);
-                    Console.Write("\nContinue? (y/n):");
-                    var key = Console.ReadKey();
-                    if(key.Equals(ConsoleKey.N))
-                    {
-                        break;
-                    }
-                    Console.ReadKey();
-                    Console.WriteLine("\nType new expression: ");
-                }
+               //Type the function you want to simplify
+                Expression<del4> function = (x, y, z, u) => (x+42)/1 + y*0/(z-0) + 43 - Math.Pow(x, 0) * Math.Pow(u, 1)/(0+5);
+                var node = Expressions2Tree.Parse(function);
+                Console.WriteLine("Initial function:\n F(x,y,z,u) = " + node);
+                
+                // Simplification
+                var result = ComputerAlgebra.Simplify(node);
+                Console.WriteLine("Result of simplification:\n " + result);
+
+                Console.ReadKey();
             }
             catch (CAException e)
             {

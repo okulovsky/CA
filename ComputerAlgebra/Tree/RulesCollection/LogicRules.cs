@@ -19,18 +19,6 @@ namespace AIRLab.CA.RulesCollection
         public static IEnumerable<Rule> Get()
         {
             yield return Rule
-                .New("Intro &&", StdTags.Inductive, StdTags.Logic, StdTags.SafeBlowing)
-                .Select(AnyA)
-                .Where<INode<bool>>()
-                .Mod(z => z.A.Replace(new Logic.And(z.A.Node, Constant.Bool(true))));
-
-            yield return Rule
-                .New("Intro ||", StdTags.Inductive, StdTags.Logic, StdTags.SafeBlowing)
-                .Select(AnyA)
-                .Where<INode<bool>>()
-                .Mod(z => z.A.Replace(new Logic.Or(z.A.Node, Constant.Bool(true))));
-
-            yield return Rule
                 .New("&&0", StdTags.Inductive, StdTags.Logic, StdTags.SafeResection, StdTags.Simplification)
                 .Select(AnyA[ChildB, ChildC])
                 .Where<Logic.And, Constant<bool>, INode>(z => !z.B.Value)
@@ -71,8 +59,6 @@ namespace AIRLab.CA.RulesCollection
                 .Select(A[ChildB[ChildC], ChildD])
                 .Where<Logic.Or, Logic.Not, INode, INode>(z => UnificationService.IsSame(z.C, z.D, true))
                 .Mod(z => z.A.Replace(Constant.Bool(true)));
-
-
         }
     }
 }

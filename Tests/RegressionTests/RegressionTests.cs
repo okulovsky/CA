@@ -1,24 +1,25 @@
-﻿// ComputerAlgebra Library
+// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
+// Copyright � Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
 using System;
+using AIRLab.CA;
 using AIRLab.CA.Regression;
-using AIRLab.CA.Tree;
-using NUnit.Framework;
 using AIRLab.CA.Tools;
+using AIRLab.CA.Tree;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AIRLab.CA.Tests
+namespace Tests.RegressionTests
 {
-    [TestFixture]
+    [TestClass]
     public class RegressionTests
     {
         private const double NoiseLevel = 0.01;
         private static readonly Random Rnd = new Random();
 
-        [Test]
+        [TestMethod]
         public void TwoVarsTreeOps()
         {
             var service = new SampleGenerator(2, 3, 0.001);

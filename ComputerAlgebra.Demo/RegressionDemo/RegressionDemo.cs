@@ -1,4 +1,10 @@
-﻿using System;
+﻿// ComputerAlgebra Library
+//
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+//
+
+using System;
 using AIRLab.CA;
 using AIRLab.CA.Regression;
 using AIRLab.CA.Tree;

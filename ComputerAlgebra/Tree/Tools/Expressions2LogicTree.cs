@@ -65,14 +65,14 @@ namespace AIRLab.CA.Tools
                     yield return op;
                 }
             }
-            else if (expr.NodeType.Equals(System.Linq.Expressions.ExpressionType.Not))
+            else if (expr.NodeType.Equals(ExpressionType.Not))
             {
                 foreach (var op in GetOperands(((UnaryExpression)expr).Operand, true))
                 {
                     yield return op;
                 }
             }
-            else if (expr.NodeType.Equals(System.Linq.Expressions.ExpressionType.Call))
+            else if (expr.NodeType.Equals(ExpressionType.Call))
             {
                 var method = (MethodCallExpression)expr;
                 var operands = new List<INode>();
@@ -93,18 +93,18 @@ namespace AIRLab.CA.Tools
                 {
                     foreach (Expression arg in argument.Expressions)
                     {
-                        if (arg.NodeType.Equals(System.Linq.Expressions.ExpressionType.Parameter))
+                        if (arg.NodeType.Equals(ExpressionType.Parameter))
                         {
                             operands.Add(
                                 VariableNode.Make<bool>(
                                     NodeElementNames.GetVariableNodeNames().IndexOf(((ParameterExpression) arg).Name),
                                     ((ParameterExpression) arg).Name));
                         }
-                        else if(arg.NodeType.Equals(System.Linq.Expressions.ExpressionType.Call))
+                        else if(arg.NodeType.Equals(ExpressionType.Call))
                         {
                             operands.AddRange(GetOperands(arg, false));
                         } 
-                        else if(arg.NodeType.Equals(System.Linq.Expressions.ExpressionType.Constant))
+                        else if(arg.NodeType.Equals(ExpressionType.Constant))
                         {
                             operands.Add(new FunctionNode(NodeElementNames.GetConstantNames().ElementAt((int)((ConstantExpression)arg).Value)));
                         }
@@ -112,11 +112,11 @@ namespace AIRLab.CA.Tools
                     yield return new FunctionNode(method.Method.Name, operands.ToArray());
                 }
             }
-            else if (expr.NodeType.Equals(System.Linq.Expressions.ExpressionType.Parameter))
+            else if (expr.NodeType.Equals(ExpressionType.Parameter))
             {
                 yield return VariableNode.Make<bool>(NodeElementNames.GetVariableNodeNames().IndexOf(((ParameterExpression)expr).Name), ((ParameterExpression)expr).Name);
             }
-            else if (expr.NodeType.Equals(System.Linq.Expressions.ExpressionType.Constant))
+            else if (expr.NodeType.Equals(ExpressionType.Constant))
             {
                 yield return new FunctionNode(NodeElementNames.GetConstantNames().ElementAt((int)((ConstantExpression)expr).Value));
             }

@@ -1,27 +1,28 @@
-﻿// ComputerAlgebra Library
+// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
+// Copyright � Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
 using System.Linq;
 using System.Linq.Expressions;
+using AIRLab.CA;
 using AIRLab.CA.Resolution;
 using AIRLab.CA.Rules;
-using AIRLab.CA.Tree;
-using NUnit.Framework;
 using AIRLab.CA.Tools;
+using AIRLab.CA.Tree;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AIRLab.CA.Tests
+namespace Tests.ResolutionTests
 {
-    [TestFixture]
-    class ResolutionTests : LogicExpressions
+    [TestClass]
+    public class ResolutionTests : LogicExpressions
     {
         delegate CABoolean del1(int x);
         delegate CABoolean del2(int x, int y);
         delegate CABoolean del3(int x, int y, int z);
 
-        [Test]
+        [TestMethod]
         public void ParseTest()
         {
             Expression<del1> e = (x) => !P(f(x)) | P(x);
@@ -40,33 +41,33 @@ namespace AIRLab.CA.Tests
                                                                         new FunctionNode("a"))).ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void ResolveRuleTest()
         {
             // P(x) V Q(f(y))
             Expression<del2> root = (x, y) => P(x) | Q(f(y));
             // !P(x)
             Expression<del1> gypotesis = (x) => !P(x);
-            var result = ResolutionService.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
+            var result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
             Assert.AreEqual(result.Count, 1);
             Assert.AreEqual(result[0].ToString(), "Q(f(y))");
-            result = ResolutionService.Resolve(Expressions2LogicTree.Parse(gypotesis), Expressions2LogicTree.Parse(root)).ToList();
+            result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(gypotesis), Expressions2LogicTree.Parse(root)).ToList();
             Assert.AreEqual(result[0].ToString(), "Q(f(y))");
         }
 
-        [Test]
+        [TestMethod]
         public void PredicateAndNegatePredicate()
         {
             Expression<del1> root = (x) => P(x);
             Expression<del1> gypotesis = (x) => !P(x);
 
             var result =
-                    ResolutionService.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
+                    ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
             Assert.AreEqual(result.Count, 1);
             Assert.AreEqual(result[0].ToString(), "");
         }
 
-        [Test]
+        [TestMethod]
         public void ResolutionOnResultOfResolution()
         {
             Expression<del1> f1 = (x) => P(x) | Q(x);
@@ -74,23 +75,23 @@ namespace AIRLab.CA.Tests
             Expression<del1> f3 = (x) => !P(x);
 
             //P(x)
-            var result = ResolutionService.Resolve(Expressions2LogicTree.Parse(f1), Expressions2LogicTree.Parse(f2)).Single();
+            var result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(f1), Expressions2LogicTree.Parse(f2)).Single();
             //{} ?
-            var result2 = ResolutionService.Resolve(Expressions2LogicTree.Parse(f3), result).ToList();
-            Assert.That(result2.Count, Is.EqualTo(1));
-            Assert.That(result2[0].ToString(), Is.EqualTo(""));
+            var result2 = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(f3), result).ToList();
+            Assert.AreEqual(result2.Count, 1);
+            Assert.AreEqual(result2[0].ToString(), "");
         }
 
-        [Test]
+        [TestMethod]
         public void ResolveRuleMultipleTest()
         {
             Expression<del1> node1 = (x) => P(x) | !Q(x) | R(x);
             Expression<del1> node2 = (x) => !P(x) | Q(x) | !R(x);
-            var result = ResolutionService.Resolve(Expressions2LogicTree.Parse(node1), Expressions2LogicTree.Parse(node2));
+            var result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(node1), Expressions2LogicTree.Parse(node2));
             Assert.AreEqual(result.Count(), 3);
         }
 
-        [Test]
+        [TestMethod]
         public void UnificationTest()
         {
             // P(f(x), z)
@@ -107,7 +108,7 @@ namespace AIRLab.CA.Tests
             Assert.AreEqual(A.ToString(), B.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void HardUnificationTest()
         {
             // P(a,x,f(g(y))
@@ -123,7 +124,7 @@ namespace AIRLab.CA.Tests
             Assert.AreEqual(node1.ToString(), node2.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void ErrorUnificationTest()
         {
             // Q(f(a),g(x))
@@ -135,7 +136,7 @@ namespace AIRLab.CA.Tests
             Assert.AreEqual(UnificationService.CanUnificate(node1, node2), false);
         }
 
-        [Test]
+        [TestMethod]
         public void ComplexUnificationTest()
         {
             // !P(x,b,z,s) V ANS(f(g(z,b,h(x,z,s))))
@@ -155,12 +156,12 @@ namespace AIRLab.CA.Tests
             Assert.AreEqual(A.ToString(), "!P(a,b,c,s0) V ANS(f(g(c,b,h(a,c,s0))))");
         }
 
-        [Test]
+        [TestMethod]
         public void ResolveWithUnificateTest()
         {
             Expression<del1> root = (x) => P(x) | Q(f(x));
             Expression<del1> gypotesis = (z) => !P(g(z));
-            var result = ResolutionService.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
+            var result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
             Assert.AreEqual(result.Count, 1);
             Assert.AreEqual(result[0].ToString(), "Q(f(g(z)))");
         }
