@@ -56,9 +56,9 @@ namespace AIRLab.CA.RulesCollection
                 .New("d(U^c)/dx", StdTags.Differentiation, StdTags.Algebraic)
                 .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
                 .Where<Differentiation.Dif<double>, Arithmetic.Pow<double>, INode, Constant<double>, VariableNode>()
-                .Mod(z => z.A.Replace(new Arithmetic.Product<double>(
+                .Mod(z => z.A.Replace(new Arithmetic.Product<double>(new Arithmetic.Product<double>(
                     Constant.Double(z.D.Node.Value),
-                    new Arithmetic.Pow<double>(z.C.Node, Constant.Double(z.D.Node.Value - 1)))));
+                    new Arithmetic.Pow<double>(z.C.Node, Constant.Double(z.D.Node.Value - 1))), new Differentiation.Dif<double>((INode)z.C.Node.Clone(), (VariableNode)z.E.Node.Clone()))));
 
             yield return Rule
                .New("d(U^V)/dx", StdTags.Differentiation, StdTags.Algebraic)
@@ -76,7 +76,7 @@ namespace AIRLab.CA.RulesCollection
                 .New("d(lnU)/dx", StdTags.Differentiation, StdTags.Algebraic)
                 .Select(AnyA[ChildB[ChildC], ChildD])
                 .Where<Differentiation.Dif<double>, Arithmetic.Ln, INode, VariableNode>()
-                .Mod(z => z.A.Replace(new Arithmetic.Divide<double>(Constant.Double(1), (INode)z.C.Node.Clone())));
+                .Mod(z => z.A.Replace(new Arithmetic.Divide<double>(new Differentiation.Dif<double>(z.C.Node, z.D.Node), (INode)z.C.Node.Clone())));
              
             yield return Rule
                 .New("dx/dx", StdTags.Differentiation, StdTags.Deductive, StdTags.Algebraic)

@@ -18,25 +18,25 @@ namespace Tests.TreeTests
             var tree = new Arithmetic.Product<int>(VariableNode.Make<int>(0, "x"),
                                                    new Arithmetic.Plus<int>(VariableNode.Make<int>(1, "y"),
                                                                             Constant.Int(3)));
-            Assert.AreEqual(tree.ToString(), "(x ∙ (y + 3))");
+            Assert.AreEqual("(x ∙ (y + 3))", tree.ToString());
             var tree2 = new Logic.MultipleOr(new PredicateNode("P", VariableNode.Make<int>(0, "x")),
                                                 new PredicateNode("Q", VariableNode.Make<int>(1, "y"), VariableNode.Make<int>(2, "z")),
                                                 new PredicateNode("H", new FunctionNode("f", VariableNode.Make<int>(0, "x")), new FunctionNode("c")));
-            Assert.AreEqual(tree2.ToString(), "P(x) V Q(y,z) V H(f(x),c)");
+            Assert.AreEqual("P(x) V Q(y,z) V H(f(x),c)", tree2.ToString());
         }
 
         [TestMethod]
         public void NodesKeepProperInfo()
         {
             var constant = Constant.Int(1);
-            Assert.AreEqual(1, constant.Value);
-            Assert.AreEqual(typeof(int), constant.Type);
-            Assert.AreEqual(0, constant.Children.Length);
+            Assert.AreEqual(constant.Value, 1);
+            Assert.AreEqual(constant.Type, typeof(int));
+            Assert.AreEqual(constant.Children.Length, 0);
 
             var variable = VariableNode.Make<int>(0, "x");
-            Assert.AreEqual(0, variable.Index);
-            Assert.AreEqual(typeof(int), variable.Type);
-            Assert.AreEqual(0, variable.Children.Length);
+            Assert.AreEqual(variable.Index, 0);
+            Assert.AreEqual(variable.Type, typeof(int));
+            Assert.AreEqual(variable.Children.Length, 0);
 
             var op = new Arithmetic.Plus<int>(constant, variable);
             Assert.AreEqual(op.Children.Length, 2);

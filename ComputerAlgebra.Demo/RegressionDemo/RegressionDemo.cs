@@ -25,10 +25,10 @@ namespace CADemo
             Console.WriteLine(String.Format("Formula after: {0}", randomFormula));
             var alg = new RegressionAlgorithm(randomFormula, generator.InSamples, generator.ExactResult);
             Console.WriteLine("Press any key to start regression...");
-            Console.ReadKey();
+            Console.ReadKey(true);
             ConsoleGui.Run(alg, 5, "", 1000, 2);
             Console.WriteLine("Result: " + alg.GetResult());
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
 
         private static void NoisyConstants(INode node)

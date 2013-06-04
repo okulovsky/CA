@@ -27,18 +27,21 @@ namespace Tests.ResolutionTests
         {
             Expression<del1> e = (x) => !P(f(x)) | P(x);
             INode node = Expressions2LogicTree.Parse(e);
-            Assert.AreEqual(node.ToString(), new Logic.MultipleOr(new SkolemPredicateNode("P", true, new FunctionNode("f", VariableNode.Make<bool>(0, "x"))),
-                                                                  new SkolemPredicateNode("P", false, VariableNode.Make<bool>(0, "x"))).ToString());
+            Assert.AreEqual(new Logic.MultipleOr(new SkolemPredicateNode("P", true, new FunctionNode("f", VariableNode.Make<bool>(0, "x"))),
+                                                                  new SkolemPredicateNode("P", false, VariableNode.Make<bool>(0, "x"))).ToString(),
+                            node.ToString());
             Expression<del3> e3 = (x, y, z) => P(f(x, y)) | !P(y) | P(x, y, z);
             node = Expressions2LogicTree.Parse(e3);
-            Assert.AreEqual(node.ToString(), new Logic.MultipleOr(new SkolemPredicateNode("P", false, new FunctionNode("f", VariableNode.Make<bool>(0, "x"), VariableNode.Make<bool>(1, "y"))),
+            Assert.AreEqual(new Logic.MultipleOr(new SkolemPredicateNode("P", false, new FunctionNode("f", VariableNode.Make<bool>(0, "x"), VariableNode.Make<bool>(1, "y"))),
                                                                   new SkolemPredicateNode("P", true, VariableNode.Make<bool>(1, "y")),
-                                                                  new SkolemPredicateNode("P", false, VariableNode.Make<bool>(0, "x"), VariableNode.Make<bool>(1, "y"), VariableNode.Make<bool>(2, "z"))).ToString());
+                                                                  new SkolemPredicateNode("P", false, VariableNode.Make<bool>(0, "x"), VariableNode.Make<bool>(1, "y"), VariableNode.Make<bool>(2, "z"))).ToString(),
+                            node.ToString());
             Expression<del1> e2 = (x) => P(f(x), a);
             node = Expressions2LogicTree.Parse(e2);
-            Assert.AreEqual(node.ToString(), new Logic.MultipleOr(new SkolemPredicateNode("P", false, 
+            Assert.AreEqual(new Logic.MultipleOr(new SkolemPredicateNode("P", false, 
                                                                         new FunctionNode("f", VariableNode.Make<bool>(0, "x")), 
-                                                                        new FunctionNode("a"))).ToString());
+                                                                        new FunctionNode("a"))).ToString(),
+                            node.ToString());
         }
 
         [TestMethod]
@@ -49,10 +52,10 @@ namespace Tests.ResolutionTests
             // !P(x)
             Expression<del1> gypotesis = (x) => !P(x);
             var result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
-            Assert.AreEqual(result.Count, 1);
-            Assert.AreEqual(result[0].ToString(), "Q(f(y))");
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual("Q(f(y))", result[0].ToString());
             result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(gypotesis), Expressions2LogicTree.Parse(root)).ToList();
-            Assert.AreEqual(result[0].ToString(), "Q(f(y))");
+            Assert.AreEqual("Q(f(y))", result[0].ToString());
         }
 
         [TestMethod]
@@ -63,8 +66,8 @@ namespace Tests.ResolutionTests
 
             var result =
                     ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
-            Assert.AreEqual(result.Count, 1);
-            Assert.AreEqual(result[0].ToString(), "");
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual("", result[0].ToString());
         }
 
         [TestMethod]
@@ -78,8 +81,8 @@ namespace Tests.ResolutionTests
             var result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(f1), Expressions2LogicTree.Parse(f2)).Single();
             //{} ?
             var result2 = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(f3), result).ToList();
-            Assert.AreEqual(result2.Count, 1);
-            Assert.AreEqual(result2[0].ToString(), "");
+            Assert.AreEqual(1, result2.Count);
+            Assert.AreEqual("", result2[0].ToString());
         }
 
         [TestMethod]
@@ -88,7 +91,7 @@ namespace Tests.ResolutionTests
             Expression<del1> node1 = (x) => P(x) | !Q(x) | R(x);
             Expression<del1> node2 = (x) => !P(x) | Q(x) | !R(x);
             var result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(node1), Expressions2LogicTree.Parse(node2));
-            Assert.AreEqual(result.Count(), 3);
+            Assert.AreEqual(3, result.Count());
         }
 
         [TestMethod]
@@ -99,12 +102,12 @@ namespace Tests.ResolutionTests
                                       VariableNode.Make<bool>(2, "z"));
             // P(y,a)
             var B = new SkolemPredicateNode("P", false, VariableNode.Make<bool>(1, "y"), new FunctionNode("a"));
-            Assert.AreEqual(UnificationService.CanUnificate(A,B), true);
+            Assert.AreEqual(true, UnificationService.CanUnificate(A,B));
             var rules = UnificationService.GetUnificationRules(A, B);
-            Assert.AreEqual(rules.Count, 2);
+            Assert.AreEqual(2, rules.Count);
             UnificationService.Unificate(A, rules);
             UnificationService.Unificate(B, rules);
-            Assert.AreEqual(A.ToString(), "P(f(x),a)");
+            Assert.AreEqual("P(f(x),a)", A.ToString());
             Assert.AreEqual(A.ToString(), B.ToString());
         }
 
@@ -117,9 +120,9 @@ namespace Tests.ResolutionTests
             Expression<del2> B = (z, u) => P(z, f(z), f(u));
             var node1 = (SkolemPredicateNode)Expressions2LogicTree.Parse(A).Children[0];
             var node2 = (SkolemPredicateNode)Expressions2LogicTree.Parse(B).Children[0];
-            Assert.AreEqual(UnificationService.CanUnificate(node1, node2), true);
+            Assert.AreEqual(true, UnificationService.CanUnificate(node1, node2));
             var rules = UnificationService.GetUnificationRules(node1, node2);
-            Assert.AreEqual(rules.Count, 3);
+            Assert.AreEqual(3, rules.Count);
             UnificationService.Unificate(node1, node2);
             Assert.AreEqual(node1.ToString(), node2.ToString());
         }
@@ -133,7 +136,7 @@ namespace Tests.ResolutionTests
             Expression<del1> B = (y) => Q(y, y);
             var node1 = (SkolemPredicateNode)Expressions2LogicTree.Parse(A).Children[0];
             var node2 = (SkolemPredicateNode)Expressions2LogicTree.Parse(B).Children[0];
-            Assert.AreEqual(UnificationService.CanUnificate(node1, node2), false);
+            Assert.AreEqual(false, UnificationService.CanUnificate(node1, node2));
         }
 
         [TestMethod]
@@ -149,11 +152,11 @@ namespace Tests.ResolutionTests
 
             // P(a,b,c,s0)
             var B = new SkolemPredicateNode("P", false, new FunctionNode("a"), new FunctionNode("b"), new FunctionNode("c"), new FunctionNode("s0"));
-            Assert.AreEqual(UnificationService.CanUnificate((SkolemPredicateNode)A.Children[0], B), true);
+            Assert.AreEqual(true, UnificationService.CanUnificate((SkolemPredicateNode)A.Children[0], B));
             var rules = UnificationService.GetUnificationRules((SkolemPredicateNode)A.Children[0], B);
-            Assert.AreEqual(rules.Count, 3);
+            Assert.AreEqual(3, rules.Count);
             UnificationService.Unificate(A, rules);
-            Assert.AreEqual(A.ToString(), "!P(a,b,c,s0) V ANS(f(g(c,b,h(a,c,s0))))");
+            Assert.AreEqual("!P(a,b,c,s0) V ANS(f(g(c,b,h(a,c,s0))))", A.ToString());
         }
 
         [TestMethod]
@@ -162,8 +165,8 @@ namespace Tests.ResolutionTests
             Expression<del1> root = (x) => P(x) | Q(f(x));
             Expression<del1> gypotesis = (z) => !P(g(z));
             var result = ComputerAlgebra.Resolve(Expressions2LogicTree.Parse(root), Expressions2LogicTree.Parse(gypotesis)).ToList();
-            Assert.AreEqual(result.Count, 1);
-            Assert.AreEqual(result[0].ToString(), "Q(f(g(z)))");
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual("Q(f(g(z)))", result[0].ToString());
         }
 
         

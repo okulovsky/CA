@@ -19,20 +19,20 @@ namespace DifferentiateDemo
             try
             {
                 //Type the function you want to differentiate
-                Expression<del3> function = (x, y, z) => Math.Pow(x, 3)*y - Math.Pow(z, x)/(x+y)+5*z;
+                Expression<del3> function = (x, y, z) => Math.Pow(x, 3)*y - Math.Pow(x, y)+5*z;
                 var node = Expressions2Tree.Parse(function);
-                Console.WriteLine("Initial function:\n F(x,y,z) = " + node);
+                Console.WriteLine("Initial function:\nF(x,y,z) = " + node);
 
                 // Differentiation
-                Console.Write("dF/dx = ");
+                Console.Write("\ndF/dx = ");
                 var result = ComputerAlgebra.Differentiate(node, variable : "x");
                 Console.WriteLine(result);
 
-                Console.Write("dF/dy = ");
+                Console.Write("\ndF/dy = ");
                 result = ComputerAlgebra.Differentiate(node, variable: "y");
                 Console.WriteLine(result);
 
-                Console.Write("dF/dz = ");
+                Console.Write("\ndF/dz = ");
                 result = ComputerAlgebra.Differentiate(node, variable: "z");
                 Console.WriteLine(result);
 

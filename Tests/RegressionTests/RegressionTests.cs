@@ -28,7 +28,7 @@ namespace Tests.RegressionTests
             NoisyConstants(noiseFormula);
             var alg = new RegressionAlgorithm(noiseFormula, service.InSamples, service.ExactResult);
             alg.Run();
-            Assert.AreNotEqual(alg.GetResult(), null);  
+            Assert.AreNotEqual(null, alg.GetResult());  
         }
 
         private static void NoisyConstants(INode node)

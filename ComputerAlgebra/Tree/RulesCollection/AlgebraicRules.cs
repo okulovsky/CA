@@ -35,9 +35,15 @@ namespace AIRLab.CA.RulesCollection
 
             yield return Rule
                 .New("-0", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
-                .Select(AnyA[C, B])
+                .Select(AnyA[B, C])
+                .Where<Arithmetic.Minus<double>, INode, Constant<double>>(z => z.C.Value == 0)
+                .Mod(z => z.A.Replace(z.B.Node));
+
+            yield return Rule
+                .New("0-", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
+                .Select(AnyA[B, C])
                 .Where<Arithmetic.Minus<double>, Constant<double>, INode>(z => z.B.Value == 0)
-                .Mod(z => z.A.Replace(z.C.Node));
+                .Mod(z => z.A.Replace(new Arithmetic.Negate<double>(z.C.Node)));
 
             yield return Rule
                 .New("/1", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
@@ -68,6 +74,12 @@ namespace AIRLab.CA.RulesCollection
                 .Select(AnyA[B, C])
                 .Where<Arithmetic.Pow<double>, INode, Constant<double>>(z => z.C.Value == 0)
                 .Mod(z => z.A.Replace(Constant.Double(1)));
+
+            yield return Rule
+                .New("(-0)", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
+                .Select(AnyA[B])
+                .Where<Arithmetic.Negate<double>, Constant<double>>(z => z.B.Value == 0)
+                .Mod(z => z.A.Replace(z.B.Node));
 
             yield return Rule
                 .New("C+C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)

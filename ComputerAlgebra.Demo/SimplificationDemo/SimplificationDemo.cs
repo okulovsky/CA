@@ -21,11 +21,11 @@ namespace SimplificationDemo
                //Type the function you want to simplify
                 Expression<del4> function = (x, y, z, u) => (x+42)/1 + y*0/(z-0) + 43 - Math.Pow(x, 0) * Math.Pow(u, 1)/(0+5);
                 var node = Expressions2Tree.Parse(function);
-                Console.WriteLine("Initial function:\n F(x,y,z,u) = " + node);
+                Console.WriteLine("Initial function:\nF(x,y,z,u) = " + node);
                 
                 // Simplification
                 var result = ComputerAlgebra.Simplify(node);
-                Console.WriteLine("Result of simplification:\n " + result);
+                Console.WriteLine("Result of simplification:\n" + result);
 
                 Console.ReadKey();
             }

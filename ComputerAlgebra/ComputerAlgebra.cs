@@ -56,13 +56,15 @@ namespace AIRLab.CA
         public static INode Differentiate(INode node, int index = 0, String variable = "")
         {
             var varIndex = index;
+            var varName = NodeElementNames.GetVariableNodeNames().ElementAt(index);
             var rules = RulesLibrary.GetSimplificationRules();
             rules.AddRange(RulesLibrary.GetDifferentiationRules());
             if (!variable.Equals("") && NodeElementNames.GetVariableNodeNames().IndexOf(variable) != -1)
             {
                 varIndex = NodeElementNames.GetVariableNodeNames().IndexOf(variable);
+                varName = variable;
             }
-            return RulesLibrary.ApplyRules(new Differentiation.Dif<double>(node, VariableNode.Make<double>(varIndex, "variable")), rules);            
+            return RulesLibrary.ApplyRules(new Differentiation.Dif<double>(node, VariableNode.Make<double>(varIndex, varName)), rules);            
         }
         /// <summary>
         /// Apply the resolution rule to passed clauses

@@ -20,7 +20,9 @@ namespace Tests.TreeTests
         public void PlusZero()
         {
             Expression<del1> expression = x => x + 0;
-            Assert.AreEqual(SimplifyBinaryExpression(expression.Body).ToString(), "x");
+            Assert.AreEqual(
+                "x",
+                SimplifyBinaryExpression(expression).ToString());
         }        
         // -0        
         [TestMethod]
@@ -28,15 +30,26 @@ namespace Tests.TreeTests
         {
             Expression<del1> expression = x => x - 0;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "x");
-        }        
+                "x",
+                SimplifyBinaryExpression(expression).ToString());
+        }
+        // 0-        
+        [TestMethod]
+        public void ZeroMinus()
+        {
+            Expression<del1> expression = x => 0 - x;
+            Assert.AreEqual(
+                "(-x)",
+                SimplifyBinaryExpression(expression).ToString());
+        }    
         // *0        
         [TestMethod]
         public void ProductZero()
         {
             Expression<del1> expression = x => x * 0;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "0");
+                "0",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // 0/        
         [TestMethod]
@@ -44,7 +57,8 @@ namespace Tests.TreeTests
         {
             Expression<del1> expression = x => 0 / x;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "0");
+                "0",
+                SimplifyBinaryExpression(expression).ToString());
         }       
         // ^0        
         [TestMethod]
@@ -52,7 +66,8 @@ namespace Tests.TreeTests
         {
             Expression<del1> expression = x => Math.Pow(x, 0);            
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "1");
+                "1",
+                SimplifyBinaryExpression(expression).ToString());
         }       
         // 0^        
         [TestMethod]
@@ -60,7 +75,8 @@ namespace Tests.TreeTests
         {
             Expression expression = Expression.Power(Expression.Constant(0.0), Expression.Parameter(typeof(double), "x"));
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression).ToString(), "0");
+                "0",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // *1        
         [TestMethod]
@@ -68,7 +84,8 @@ namespace Tests.TreeTests
         {
             Expression<del1> expression = x => x * 1;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "x");
+                "x",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // /1        
         [TestMethod]
@@ -76,7 +93,8 @@ namespace Tests.TreeTests
         {
             Expression<del1> expression = x => x / 1;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "x");
+                "x",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // ^1        
         [TestMethod]
@@ -84,7 +102,17 @@ namespace Tests.TreeTests
         {
             Expression<del1> expression = x => Math.Pow(x, 1);
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "x");
+                "x",
+                SimplifyBinaryExpression(expression).ToString());
+        }
+        // (-0)        
+        [TestMethod]
+        public void NegateZero()
+        {
+            Expression<del> expression = () => -0;
+            Assert.AreEqual(
+                "0",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // C+C       
         [TestMethod]
@@ -92,7 +120,8 @@ namespace Tests.TreeTests
         {
             Expression<del> expression = () => 2 + 1;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "3");
+                "3",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // C-C       
         [TestMethod]
@@ -100,7 +129,8 @@ namespace Tests.TreeTests
         {
             Expression<del> expression = () => 2 - 1;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "1");
+                "1",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // C*C       
         [TestMethod]
@@ -108,7 +138,8 @@ namespace Tests.TreeTests
         {
             Expression<del> expression = () => 2 * 2;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "4");
+                "4",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // C/C       
         [TestMethod]
@@ -116,7 +147,8 @@ namespace Tests.TreeTests
         {
             Expression<del> expression = () => 4 / 2;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "2");
+                "2",
+                SimplifyBinaryExpression(expression).ToString());
         }
         // C^C       
         [TestMethod]
@@ -124,7 +156,8 @@ namespace Tests.TreeTests
         {
             Expression<del> expression = () => Math.Pow(2, 2);
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "4");
+                "4",
+                SimplifyBinaryExpression(expression).ToString());
         }
 
         // (x+C)+C       
@@ -133,10 +166,12 @@ namespace Tests.TreeTests
         {
             Expression<del1> expression = (x) => (x + 5) + 5;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "(x + 10)");
+                "(x + 10)",
+                SimplifyBinaryExpression(expression).ToString());
             expression = (x) => 3+(x+1);
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "(x + 4)");
+                "(x + 4)",
+                SimplifyBinaryExpression(expression).ToString());
         }
 
         // (x-C)+C      
@@ -145,13 +180,16 @@ namespace Tests.TreeTests
         {
             Expression<del1> expression = (x) => (x - 5) + 5;
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "x");
+                "x", 
+                SimplifyBinaryExpression(expression).ToString());
             expression = (x) => 3 + (x - 1);
             Assert.AreEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "(x + 2)");
+                "(x + 2)",
+                SimplifyBinaryExpression(expression).ToString());
             expression = (x) => 3 + (1 - x);
             Assert.AreNotEqual(
-                SimplifyBinaryExpression(expression.Body).ToString(), "(x + 2)");
+                "(x + 2)",
+                SimplifyBinaryExpression(expression).ToString());
         }
         #endregion
 
@@ -162,7 +200,8 @@ namespace Tests.TreeTests
         {
             INode root = new Logic.And(VariableNode.Make<bool>(0, "x"), new Constant<bool>(false));
             Assert.AreEqual(
-                SimplifyLogicTree(root).ToString(), bool.FalseString);
+                bool.FalseString,
+                SimplifyLogicTree(root).ToString());
         }
         //&&1
         [TestMethod]
@@ -170,7 +209,8 @@ namespace Tests.TreeTests
         {
             INode root = new Logic.And(VariableNode.Make<bool>(0, "x"), new Constant<bool>(true));
             Assert.AreEqual(
-                SimplifyLogicTree(root).ToString(), VariableNode.Make<bool>(0, "x").ToString());
+                VariableNode.Make<bool>(0, "x").ToString(),
+                SimplifyLogicTree(root).ToString());
         }
         //||0
         [TestMethod]
@@ -178,7 +218,8 @@ namespace Tests.TreeTests
         {
             INode root = new Logic.Or(VariableNode.Make<bool>(0, "x"), new Constant<bool>(false));
             Assert.AreEqual(
-                SimplifyLogicTree(root).ToString(), VariableNode.Make<bool>(0, "x").ToString());
+                VariableNode.Make<bool>(0, "x").ToString(),
+                SimplifyLogicTree(root).ToString());
         }
         //||1
         [TestMethod]
@@ -186,7 +227,8 @@ namespace Tests.TreeTests
         {
             INode root = new Logic.Or(VariableNode.Make<bool>(0, "x"), new Constant<bool>(true));
             Assert.AreEqual(
-                SimplifyLogicTree(root).ToString(), bool.TrueString);
+                bool.TrueString,
+                SimplifyLogicTree(root).ToString());
         }
         //!!
         [TestMethod]
@@ -194,7 +236,8 @@ namespace Tests.TreeTests
         {
             INode root = new Logic.Not(new Logic.Not(VariableNode.Make<bool>(0, "x")));
             Assert.AreEqual(
-                SimplifyLogicTree(root).ToString(), VariableNode.Make<bool>(0, "x").ToString());
+                VariableNode.Make<bool>(0, "x").ToString(),
+                SimplifyLogicTree(root).ToString());
         }
 
         //x V x
@@ -203,7 +246,8 @@ namespace Tests.TreeTests
         {
             INode root = new Logic.Or(VariableNode.Make<bool>(0, "x"), VariableNode.Make<bool>(0, "x"));
             Assert.AreEqual(
-                SimplifyLogicTree(root).ToString(), VariableNode.Make<bool>(0, "x").ToString());
+                VariableNode.Make<bool>(0, "x").ToString(),
+                SimplifyLogicTree(root).ToString());
         }
 
         //!x V x
@@ -212,7 +256,8 @@ namespace Tests.TreeTests
         {
             INode root = new Logic.Or(new Logic.Not(VariableNode.Make<bool>(0, "x")), VariableNode.Make<bool>(0, "x"));
             Assert.AreEqual(
-                SimplifyLogicTree(root).ToString(), Constant.Bool(true).ToString());
+                Constant.Bool(true).ToString(),
+                SimplifyLogicTree(root).ToString());
         }
         
 
