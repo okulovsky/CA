@@ -82,7 +82,7 @@ Full rule definition looks like this:
 Rule  
     .New("+0", StdTags.Algebraic, StdTags.Simplification, StdTags.SafeResection)  
     .Select(AnyA[ChildB, ChildC])  
-    .Where&lt;Arithmetic.Plus&lt;double&gt;, Constant&lt;double&gt;, INode&gt;(z => z.B.Value == 0)  
+    .Where<Arithmetic.Plus<double>, Constant<double>, INode>(z => z.B.Value == 0)  
     .Mod(z => z.A.Replace(z.C.Node));  
 ```
 
