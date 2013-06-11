@@ -9,7 +9,7 @@ such transformation rules.
 
 Many CAS systems are developed either small research projects and enterprise software. However, no one is implemented in .NET framework, which is a modern programming technology, widely used for research, 
 education and software development. To our knowledge, only one .NET solution exists, named Math.NET. However, it could hardly considered as a full-fledged computer algebra system. 
-Transformation rules are not programmed as a separate entity, and are substituted by Visitor pattern  that processes nodes in a tree according to its function. This decision hampers the system’s expanding, 
+Transformation rules are not programmed as a separate entity, and are substituted by Visitor pattern  that processes nodes in a tree according to its function. This decision hampers the system's expanding, 
 because addition of new operations demands alterations in the existed code. Moreover, even operations like the differentiation of the exponential function are still not implemented.
 
 To develop a computer algebra system, we need to build convenient and reliable framework for rules definition and application. Such frameworks are the core part of all existed CAS. In this work, we present our solution 
@@ -47,19 +47,19 @@ Let us demonstrate the syntax of query string with the following example. Consid
 The sampling algorithm is a depth-search algorithm that builds a correspondence between a given tree and a parsed tree of query string. To encode the rule, we should specify the query string in the program. 
 It could be done by coding of query as a constant string. However, it is not convenient due to possible mistakes in query syntax, such as wrong brackets match or incorrect letters. To eliminate such errors, 
 we implement query strings definition with square brackets overriding. So now, you can encode the rule, using following syntax:
-```
+```csharp
 Select(AnyA[ChildB, ChildC]);
 ```
 
 ## Selection ##
 The selection stage can be further subdivided into type selection and custom selection. Type selection checks the types of nodes in the selected tuple and rejects the tuple in the case of mismatch.
-Custom selection can check additional condition, e.g. value of the constant. Type selection must be performed prior to custom selection, because the possibility of custom selection depends of the node’s type. 
+Custom selection can check additional condition, e.g. value of the constant. Type selection must be performed prior to custom selection, because the possibility of custom selection depends of the node's type. 
 For example, to check that the constant value is zero, we have to be sure that the node corresponds to a constant, and not to an operator.
 
 When programming selection, a challenge emerges of how to provide the tuple to selection condition. We cannot store selected nodes in array or list structures, because it does not allow to specify different types 
 for elements. With array representation, selection could only performed as this:
 
-```
+```csharp
 ( array => array[0] is Plus && array[1] is Constant && (array[1] as Constant).Value==0 );
 ```
 
@@ -78,7 +78,7 @@ delegate <code>apply</code>, where modification performs.
 ## Creating new rule ##
 Full rule definition looks like this:
 
-```
+```csharp
 Rule  
     .New("+0", StdTags.Algebraic, StdTags.Simplification, StdTags.SafeResection)  
     .Select(AnyA[ChildB, ChildC])  
@@ -93,7 +93,7 @@ you can do with the system to date.
 You can find rules for simplification and differentiation in classes <code>AlgebraicRules</code> and <code>DifferentiationRules</code> accordingly. To simplify expression with existing rules use method 
 <code>ComputerAlgebra.Simplify</code> like this:
 
-```
+```csharp
 Expression<del4> expression = (x, y, z, u) => (x+42)/1 + y*0/(z-0) + 43 - Math.Pow(x, 0) * Math.Pow(u, 1)/(0+5);  
 // x+85 - u/5  
 var result = ComputerAlgebra.Simplify(expression);  
@@ -101,7 +101,7 @@ var result = ComputerAlgebra.Simplify(expression);
 
 To find the partial derivatives of a function use method <code>ComputerAlgebra.Differentiate</code>:
 
-```
+```csharp
 Expression<del3> function = (x, y, z) => Math.Pow(x, 3)*y - Math.Pow(x, y)+5*z;  
 // 5  
 var result = ComputerAlgebra.Differentiate(function, variable: "z");  
@@ -137,7 +137,7 @@ The resolution technique is very simple:
 All predicates must be in Skolem normal form, therefore we needs some tool to define quantifier-free part of such predicates. To do that we have generated several methods and constants. So now, we can define  
 formulas in the following form:
 
-```
+```csharp
 Expression<del2> clause = (x, y) => P(a, x, f(g(y))) | !Q(x) | R(b);
 ```
 
@@ -145,7 +145,7 @@ The algorithm of unification is implemented in <code>UnificationService</code> c
 
 The main part of this technique, the resolution rule, is implemented as standard rule of this system:
 
-```
+```csharp
 Rule   
 	.New("Resolve", StdTags.Inductive, StdTags.Logic, StdTags.SafeResection)   
 	.Select(A[ChildB], C[ChildD])    
@@ -157,7 +157,7 @@ Where <code>Modificator</code> method perfoms a unification on the two predicate
 
 To get list of possible resolvents of two predicates you must use the method <code>ComputerAlgebra.Resolve</code> like this:
 
-```
+```csharp
 Expression<del1> node1 = (x) => P(x) | !Q(x);   
 Expression<del1> node2 = (x) => !P(x) | Q(x);   
 // [!Q(x) &or; Q(x); P(x) &or; !P(x)]    
