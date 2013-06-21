@@ -7,7 +7,7 @@ This is an extended and revised version of _Symbolic Computations in .NET Framew
 
 The project is currently finished. The authors did not have the intention to build a full-fledged computer algebra system for .NET, and transformations rules are only part of the other laboratory's project. However, we hope the library will be useful for your purposes. Feel free to use and extend it under GPL v3 licence. Should you have any questions, please contact authors or info@air-labs.ru
 
-You can find the more detailed description of the work (in Igor Medvedev's master theses)[CASystem.pdf] (sorry, only Russian version is available).
+You can find the more detailed description of the work [in Igor Medvedev's master theses](CASystem.pdf) (sorry, only Russian version is available).
 
 # Introduction #
 
