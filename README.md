@@ -3,7 +3,7 @@ Computer Algebra System for .NET Framework
 
 # Preface #
 
-This is an extended and revised version of _Symbolic Computations in .NET Framework._ Medvedev I., Okulovsky Yu. *Proceedings of 6-th Spring-Summer Young Researchers' Colloquium on Software Engineering. с. 105-109. Perm-2012.*
+This is an shortened version of _Symbolic Computations in .NET Framework._ Medvedev I., Okulovsky Yu. *Proceedings of 6-th Spring-Summer Young Researchers' Colloquium on Software Engineering. с. 105-109. Perm-2012.* Please find the original work [here](SYRCOSE.pdf).
 
 The project is currently finished. The authors did not have the intention to build a full-fledged computer algebra system for .NET, and transformations rules are only part of the other laboratory's project. However, we hope the library will be useful for your purposes. Feel free to use and extend it under GPL v3 licence. Should you have any questions, please contact us yuri.okulovsky [at] gmail.com
 
