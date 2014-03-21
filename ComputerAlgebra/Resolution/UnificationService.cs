@@ -25,6 +25,7 @@ namespace AIRLab.CA.Resolution
         {
             if (unificationRules.Count == 0)
                 return;
+
             foreach (var child in node.Children)
             {
                 if (child is VariableNode && unificationRules.ContainsKey((VariableNode)child))
@@ -37,6 +38,7 @@ namespace AIRLab.CA.Resolution
                 }
             }
         }
+
         /// <summary>
         /// Unificate passed nodes, if it possible. Otherwise return false
         /// </summary>
@@ -48,6 +50,7 @@ namespace AIRLab.CA.Resolution
             var unificationRules = GetUnificationRules(node1, node2);
             if (unificationRules == null || unificationRules.Count == 0)
                 return false;
+
             Unificate(node1, unificationRules);
             Unificate(node2, unificationRules);
             return true;
@@ -64,6 +67,7 @@ namespace AIRLab.CA.Resolution
             // The predicate name is unique
             if (!node1.Name.Equals(node2.Name))
                 return false;
+
             return GetUnificationRules(node1, node2) != null;
         }
 
@@ -77,19 +81,29 @@ namespace AIRLab.CA.Resolution
         {
             if (node1.Children.Count() != node2.Children.Count())
                 return null;
+
             var tempNode1 = (INode)node1.Clone();
             var tempNode2 = (INode)node2.Clone();
             var rules = new Dictionary<VariableNode, ITermNode>(new TermNodeComparer());
+
             for (var i = 0; i < tempNode1.Children.Length; i++)
             {
                 var child1 = tempNode1.Children[i];
                 var child2 = tempNode2.Children[i];
+
                 if (IsSame(child1, child2, true))
+                {
                     continue;
+                }
+
                 if (child1 is VariableNode)
+                {
                     rules.Add((VariableNode)child1, (ITermNode)child2);
-                else if(child2 is VariableNode)
+                }
+                else if (child2 is VariableNode)
+                {
                     rules.Add((VariableNode)child2, (ITermNode)child1);
+                }
                 else if (IsSame(child1, child2, false))
                 {
                     var temp = GetUnificationRules(child1, child2);
@@ -101,11 +115,13 @@ namespace AIRLab.CA.Resolution
                 {
                     return null;
                 }
+
                 Unificate(tempNode1, rules);
                 Unificate(tempNode2, rules);
             }
             return rules;
         }
+
         /// <summary>
         /// Checks the external equity of nodes (the equality of names and arity)
         /// </summary>
@@ -117,16 +133,25 @@ namespace AIRLab.CA.Resolution
         {
             var term1 = node1 as ITermNode;
             var term2 = node2 as ITermNode;
+
             if (term1 == null || term2 == null)
             {
                 return false;
             }
+
             if(term1.Children.Length != term2.Children.Length)
             {
                 return false;
             }
-            return term1.Name.Equals(term2.Name) && (!withChildren || 
-                term1.Children.Aggregate(term1.Name.Equals(term2.Name), (current1, childA) => term2.Children.Aggregate(current1, (current, childB) => current && IsSame(childA, childB, true))));
+
+            return term1.Name.Equals(term2.Name) && (!withChildren || ChildrenAreEqual(term1, term2));
+        }
+
+        private static bool ChildrenAreEqual(ITermNode term1, ITermNode term2)
+        {
+            return term1.Children.Aggregate(term1.Name.Equals(term2.Name), 
+                (current1, childA) => term2.Children.Aggregate(current1, 
+                    (current, childB) => current && IsSame(childA, childB, true)));
         }
 
         private class TermNodeComparer : IEqualityComparer<ITermNode>
