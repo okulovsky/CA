@@ -5,6 +5,7 @@
 //
 
 using System;
+using System.Linq;
 using AIRLab.CA;
 using AIRLab.CA.Regression;
 using AIRLab.CA.Tree;
@@ -14,42 +15,49 @@ namespace CADemo
     class RegressionDemo
     {
         private const double NoiseLevel = 0.1;
-        private static readonly Random Rnd = new Random();
+        private static readonly Random RandomNumberGenerator = new Random();
 
         static void Main()
         {
-            var generator = new SampleGenerator(2, 6, 0.001);
-            var randomFormula = generator.GetFormula();
-            Console.WriteLine(String.Format("Formula before noise constants: {0}", randomFormula));
-            NoisyConstants(randomFormula);
-            Console.WriteLine(String.Format("Formula after: {0}", randomFormula));
-            var alg = new RegressionAlgorithm(randomFormula, generator.InSamples, generator.ExactResult);
+            var sampleGenerator = new SampleGenerator(2, 6, 0.001);
+            var randomFormula = sampleGenerator.GetFormula();
+            Console.WriteLine("Formula before making constants noisy: {0}", randomFormula);
+
+            GenerateNoisyConstantsForNodeLeafes(randomFormula);
+            Console.WriteLine("Formula after making constants noisy: {0}", randomFormula);
+            
             Console.WriteLine("Press any key to start regression...");
             Console.ReadKey(true);
-            ConsoleGui.Run(alg, 5, "", 1000, 2);
-            Console.WriteLine("Result: " + alg.GetResult());
-            Console.ReadKey(true);
+
+            var alg = new RegressionAlgorithm(randomFormula, sampleGenerator.InSamples, sampleGenerator.ExactResult);
+            ConsoleGui.Run(alg, 5, "");
+            
+            Console.WriteLine("Result: {0}", alg.GetResult());
         }
 
-        private static void NoisyConstants(INode node)
+        private static void GenerateNoisyConstantsForNodeLeafes(INode node)
         {
             if (node.HasChildren())
             {
-                foreach (var child in node.Children)
-                {
-                    NoisyConstants(child);
-                }
+                node.Children.ToList().ForEach(GenerateNoisyConstantsForNodeLeafes);
+                return;
             }
-            else
-            {
-                if (node is Constant)
-                {
-                    var oldValue = ((Constant<double>)node).Value;
-                    var childIndex = node.Parent.IndexOfChild(node);
-                    INode newConst = new Constant<double>(oldValue + Math.Pow((-1), Rnd.Next(3)) * Rnd.Next((int)(oldValue / 2), (int)(oldValue * 2)) * NoiseLevel);
-                    node.Parent.Children[childIndex] = newConst;
-                }
-            }
+
+            if (!(node is Constant))
+                return;
+
+            var childIndex = node.Parent.IndexOfChild(node);
+            node.Parent.Children[childIndex] = CalculateNewConstant((Constant<double>)node);
+        }
+
+        private static Constant<double> CalculateNewConstant(Constant<double> constant)
+        {
+            var oldValue = constant.Value;
+            var newValue = oldValue + 
+                Math.Pow((-1), RandomNumberGenerator.Next(3)) *
+                RandomNumberGenerator.Next((int) (oldValue/2), (int) (oldValue*2)) * 
+                NoiseLevel;
+            return new Constant<double>(newValue);
         }
     }
 }
