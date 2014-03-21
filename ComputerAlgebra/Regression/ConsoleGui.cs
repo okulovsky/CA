@@ -4,21 +4,21 @@ namespace AIRLab.CA.Regression
 {
     public static class ConsoleGui
     {
-        public static void Run(RegressionAlgorithm alg, int iterationShowRate, String formula, int iterationCount = 1000, int iterationCursorPosition = 2)
+        public static void Run(RegressionAlgorithm regressionAlgorithm, int iterationShowRate, String formula, int iterationCount = 1000, int iterationCursorPosition = 2)
         {
             Console.SetCursorPosition(0, iterationCursorPosition);
-            Console.WriteLine("Functional: " + alg.Formula);
+            Console.WriteLine("Functional: {0}", regressionAlgorithm.Formula);
 
-            for (var cnt = 0; ; cnt++)
+            for (var count = 0; regressionAlgorithm.CurrentIteration < iterationCount; count++)
             {
-                alg.MakeIteration();
-                if (cnt % iterationShowRate != 0) continue;
+                regressionAlgorithm.MakeIteration();
+                if (count % iterationShowRate != 0) 
+                    continue;
+
                 Console.SetCursorPosition(0, iterationCursorPosition+2);
-                Console.WriteLine("Iteration #:  " + alg.CurrentIteration);
-                Console.WriteLine("Constant set:  " + "[" + string.Join(" ; ", alg.InConstant) + "]");
-                Console.WriteLine("ApproximationError:    " + alg.ApproximationError);
-                
-                if (alg.CurrentIteration > iterationCount) break;
+                Console.WriteLine("Iteration #:\t{0}", regressionAlgorithm.CurrentIteration);
+                Console.WriteLine("Constant set:\t[{0}]", string.Join(" ; ", regressionAlgorithm.InConstant));
+                Console.WriteLine("ApproximationError:\t{0}", regressionAlgorithm.ApproximationError);
             }
         }
     }
