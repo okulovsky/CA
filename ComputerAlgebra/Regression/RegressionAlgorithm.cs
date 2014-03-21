@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections;
 using AIRLab.CA.Tools;
 using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
 
 namespace AIRLab.CA.Regression
 {

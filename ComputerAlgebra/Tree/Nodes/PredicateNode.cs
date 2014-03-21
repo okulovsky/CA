@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     /// <summary>
     /// Class for predicates. In first-order logic predicated are not terms, but in this case they are.

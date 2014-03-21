@@ -4,11 +4,13 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-namespace AIRLab.CA.Rules
+using System;
+using AIRLab.CA.Rules;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Tools;
+
+namespace AIRLab.CA.Tree.Rules
 {
-    using System;
-    using Tree;
-    using Tools;
     public class TypizedNodeArray<T0> : WhereOutput where T0 : INode
     {
         public T0 A { get; set; }
@@ -1028,15 +1030,15 @@ namespace AIRLab.CA.Rules
     }
     public class LogicExpressions
     {
-        public static CABoolean K(params int[] args) { return new CABoolean(); }
-        public static CABoolean L(params int[] args) { return new CABoolean(); }
-        public static CABoolean M(params int[] args) { return new CABoolean(); }
-        public static CABoolean N(params int[] args) { return new CABoolean(); }
-        public static CABoolean O(params int[] args) { return new CABoolean(); }
-        public static CABoolean P(params int[] args) { return new CABoolean(); }
-        public static CABoolean Q(params int[] args) { return new CABoolean(); }
-        public static CABoolean R(params int[] args) { return new CABoolean(); }
-        public static CABoolean S(params int[] args) { return new CABoolean(); }
+        public static ComputerAlgebraBoolean K(params int[] args) { return new ComputerAlgebraBoolean(); }
+        public static ComputerAlgebraBoolean L(params int[] args) { return new ComputerAlgebraBoolean(); }
+        public static ComputerAlgebraBoolean M(params int[] args) { return new ComputerAlgebraBoolean(); }
+        public static ComputerAlgebraBoolean N(params int[] args) { return new ComputerAlgebraBoolean(); }
+        public static ComputerAlgebraBoolean O(params int[] args) { return new ComputerAlgebraBoolean(); }
+        public static ComputerAlgebraBoolean P(params int[] args) { return new ComputerAlgebraBoolean(); }
+        public static ComputerAlgebraBoolean Q(params int[] args) { return new ComputerAlgebraBoolean(); }
+        public static ComputerAlgebraBoolean R(params int[] args) { return new ComputerAlgebraBoolean(); }
+        public static ComputerAlgebraBoolean S(params int[] args) { return new ComputerAlgebraBoolean(); }
         public static int f(params int[] args) { return 1; }
         public static int g(params int[] args) { return 1; }
         public static int h(params int[] args) { return 1; }

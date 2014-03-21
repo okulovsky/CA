@@ -7,9 +7,10 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA.Rules;
 using AIRLab.CA.Tools;
 using AIRLab.CA;
+using AIRLab.CA.Tree.Rules;
+using AIRLab.CA.Tree.Tools;
 
 namespace ResolutionDemo
 {
@@ -18,8 +19,8 @@ namespace ResolutionDemo
         static void Main()
         {
             //Type two clauses in SNF without quantifiers
-            Expression<Func<int,int,int,int,CABoolean>> exp = (x, y, z, u) => !P(x, y) | Q(z, g(u)) | R(z, f(u));
-            Expression<Func<int, int, CABoolean>> gypotesis = (x, u) => !R(x, f(u)) | P(b, h(a));
+            Expression<Func<int,int,int,int,ComputerAlgebraBoolean>> exp = (x, y, z, u) => !P(x, y) | Q(z, g(u)) | R(z, f(u));
+            Expression<Func<int, int, ComputerAlgebraBoolean>> gypotesis = (x, u) => !R(x, f(u)) | P(b, h(a));
 
             var expNode = Expressions2LogicTree.Parse(exp);
             var gypotesisNode = Expressions2LogicTree.Parse(gypotesis);

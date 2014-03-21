@@ -4,7 +4,7 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     public abstract class TermNode : Node, ITermNode
     {

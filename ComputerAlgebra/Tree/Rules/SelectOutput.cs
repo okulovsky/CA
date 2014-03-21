@@ -5,6 +5,7 @@
 //
 
 using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
 
 namespace AIRLab.CA.Rules
 {

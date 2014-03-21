@@ -8,7 +8,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using AIRLab.CA.Tools;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators;
+using AIRLab.CA.Tree.Operators.Arithmetic;
 
 namespace AIRLab.CA
 {
@@ -27,7 +29,7 @@ namespace AIRLab.CA
         private readonly int _varCount;
         private readonly int _operCount;
         private readonly double _noiseLevel;
-        private const double EPSILON = 0.00000001;
+        private const double Epsilon = 0.00000001;
 
         public SampleGenerator(int varCount, int operCount, double noise)
         {
@@ -41,7 +43,7 @@ namespace AIRLab.CA
 
         public INode GetFormula()
         {
-            INode formula = null;
+            INode formula;
             while (true)
             {
                 formula = GenerateFormula(_operCount, _varCount);                
@@ -59,6 +61,7 @@ namespace AIRLab.CA
             }
             return formula;
         }
+
         public static IEnumerable<double[]> Arguments(int count, int step, double[] temp, double min, double max, double delta)
         {
             if (temp == null)
@@ -74,6 +77,7 @@ namespace AIRLab.CA
                     yield return temp.ToArray();
             }
         }
+
         /// <summary>
         /// Check the significance of each variable
         /// </summary>
@@ -87,6 +91,7 @@ namespace AIRLab.CA
             }
             return false;
         }
+
         /// <summary>
         /// Check the significance of one variable
         /// </summary>
@@ -96,9 +101,9 @@ namespace AIRLab.CA
             var step = (int)Math.Pow(((Max - Min) / Delta) + 1, (number));
             for (var i = 0; i < InSamples.Count - step; i++)
             {
-                if (Math.Abs((i + 1) % ((Max - Min) / Delta + 1) - 0) < EPSILON)
+                if (Math.Abs((i + 1) % ((Max - Min) / Delta + 1) - 0) < Epsilon)
                     continue;
-                if (Math.Abs(ExactResult[i] - ExactResult[i + step]) > EPSILON)
+                if (Math.Abs(ExactResult[i] - ExactResult[i + step]) > Epsilon)
                 {
                     return false;
                 }
@@ -115,9 +120,9 @@ namespace AIRLab.CA
             return (result.Exists(double.IsNaN) || result.Exists(double.IsInfinity));
         }
 
-        protected BinaryOp GenerateFormula(int operationsCount, int variableCount)
+        protected BinaryOperator GenerateFormula(int operationsCount, int variableCount)
         {
-            var formula = new List<BinaryOp>();
+            var formula = new List<BinaryOperator>();
             var constCount = operationsCount - variableCount + 1;
             var listsCount = (int)Math.Ceiling(operationsCount / 2.0);
             // leafs generation             
@@ -168,24 +173,26 @@ namespace AIRLab.CA
             }
             return formula[0];
         }
-        protected BinaryOp GetRandomOperation(INode child1, INode child2)
+
+        protected BinaryOperator GetRandomOperation(INode child1, INode child2)
         {
             var rndOper = Rnd.Next(5); ;
             switch (rndOper)
             {
                 case 0:
-                    return new Arithmetic.Plus<double>(child1, child2);
+                    return new Plus<double>(child1, child2);
                 case 1:
-                    return new Arithmetic.Minus<double>(child1, child2);
+                    return new Minus<double>(child1, child2);
                 case 2:
-                    return new Arithmetic.Product<double>(child1, child2);
+                    return new Product<double>(child1, child2);
                 case 3:
-                    return new Arithmetic.Divide<double>(child1, child2);
+                    return new Divide<double>(child1, child2);
                 case 4:
-                    return new Arithmetic.Pow<double>(child1, child2);
+                    return new Pow<double>(child1, child2);
             }
-            return new Arithmetic.Plus<double>(child1, child2);
+            return new Plus<double>(child1, child2);
         }
+
         protected List<int> GetUniqueRandom(int length)
         {
             var count = 0;

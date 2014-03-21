@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     /// <summary>
     /// Implementation of functions in first-order logic. Contstants are functions without children.

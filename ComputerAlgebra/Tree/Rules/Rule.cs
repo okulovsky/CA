@@ -8,49 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Rules;
+using AIRLab.CA.Tree.Nodes;
 
-namespace AIRLab.CA.Rules
+namespace AIRLab.CA.Tree.Rules
 {
-
-    public partial class SelectWhereRule
-    {
-        public SelectRule SelectRule;
-        public SelectWhereRule(SelectRule selectRule)
-        {
-            this.SelectRule = selectRule;
-        }
-    }
-
-
-    public partial class SelectRule
-    {
-        public ComplexSelector Selector;
-        public NewRule NewRule;
-        public SelectRule(NewRule newRule, ComplexSelector selector)
-        {
-            this.Selector = selector;
-            NewRule = newRule;
-        }
-    }
-
-    public class NewRule
-    {
-        public string Name;
-        public string[] Tags;
-        public NewRule(string name, string[] Tags)
-        {
-            this.Name = name;
-            this.Tags = Tags;
-        }
-
-        public SelectRule Select(params SelectClauseNode[] clauses)
-        {
-            return new SelectRule(this,new ComplexSelector(clauses));
-        }
-    }
-
-    public partial class Rule
+    public class Rule
     {
         readonly ComplexSelector _selector;
         readonly Func<SelectOutput, WhereOutput> _where;
@@ -61,11 +24,11 @@ namespace AIRLab.CA.Rules
 
         public Rule(string name, string[] tags, ComplexSelector selector, Func<SelectOutput,WhereOutput> where, Action<ModInput> apply)
         {
-            this._selector=selector;
-            this._where=where;
-            this._apply=apply;
-            this.Name = name;
-            this.Tags=new ReadOnlyCollection<string>(tags);
+            _selector=selector;
+            _where=where;
+            _apply=apply;
+            Name = name;
+            Tags=new ReadOnlyCollection<string>(tags);
         }
 
         public IEnumerable<SelectOutput> Select(params INode[] roots)

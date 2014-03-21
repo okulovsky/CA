@@ -4,7 +4,7 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     /// <summary>
     /// This is a ordinary predicate, but with indication of negation. 

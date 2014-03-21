@@ -9,7 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AIRLab.CA.Tools;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators.Differentiation;
+using AIRLab.CA.Tree.Operators.Logic;
+using AIRLab.CA.Tree.Tools;
 
 namespace AIRLab.CA
 {
@@ -24,6 +27,7 @@ namespace AIRLab.CA
         {
             return Tree2Expression.Parse(Simplify(Expressions2Tree.Parse(e)));
         }
+
         /// <summary>
         /// Simplify tree, using simplification rules from <see cref="RulesLibrary"/>
         /// </summary>
@@ -33,6 +37,7 @@ namespace AIRLab.CA
         {
             return RulesLibrary.ApplyRules(tree, RulesLibrary.GetSimplificationRules());
         }
+
         /// <summary>
         /// Calculate partial differentiation of function, represented as expression
         /// </summary>
@@ -46,6 +51,7 @@ namespace AIRLab.CA
             var node = Expressions2Tree.Parse(e);
             return Tree2Expression.Parse(Differentiate(node, index, variable));
         }
+
         /// <summary>
         /// Calculate partial differentiation of function, represented as syntax tree
         /// </summary>
@@ -64,8 +70,9 @@ namespace AIRLab.CA
                 varIndex = NodeElementNames.GetVariableNodeNames().IndexOf(variable);
                 varName = variable;
             }
-            return RulesLibrary.ApplyRules(new Differentiation.Dif<double>(node, VariableNode.Make<double>(varIndex, varName)), rules);            
+            return RulesLibrary.ApplyRules(new Dif<double>(node, VariableNode.Make<double>(varIndex, varName)), rules);            
         }
+
         /// <summary>
         /// Apply the resolution rule to passed clauses
         /// </summary>
@@ -80,7 +87,7 @@ namespace AIRLab.CA
             foreach (var ins in instances)
             {
                 var nodes = rule.Apply(ins).Where(z => z.Children.Length > 0).ToArray();
-                result.Add(nodes.Length == 1 ? nodes[0] : new Logic.MultipleOr(nodes));
+                result.Add(nodes.Length == 1 ? nodes[0] : new MultipleOr(nodes));
             }
             return result;
         }

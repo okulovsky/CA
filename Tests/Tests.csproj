@@ -52,7 +52,8 @@
     <Compile Include="TreeTests\DifferentiationTest.cs" />
     <Compile Include="TreeTests\NodeTest.cs" />
     <Compile Include="TreeTests\RulesTest.cs" />
-    <Compile Include="TreeTests\SimpleTests.cs" />
+    <Compile Include="TreeTests\SimpleAlgebraicTests.cs" />
+    <Compile Include="TreeTests\SimpleLogicTests.cs" />
     <Compile Include="TreeTests\Tests.cs" />
   </ItemGroup>
   <ItemGroup>

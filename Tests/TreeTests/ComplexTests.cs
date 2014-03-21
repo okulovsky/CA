@@ -6,7 +6,8 @@
 
 using System;
 using System.Linq.Expressions;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators.Arithmetic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.TreeTests
@@ -18,19 +19,20 @@ namespace Tests.TreeTests
         [TestMethod]
         public void FirstLevel()
         {
-            Expression<del2> expression = (x, y) => ((x + y) + 0) * 1;
+            Expression<Del2> expression = (x, y) => ((x + y) + 0) * 1;
             Assert.AreEqual(
-                 new Arithmetic.Plus<double>(VariableNode.Make<double>(0, "x"), VariableNode.Make<double>(1, "y")).ToString(),
+                 new Plus<double>(VariableNode.Make<double>(0, "x"), VariableNode.Make<double>(1, "y")).ToString(),
                  SimplifyBinaryExpression(expression.Body).ToString());
         }
+
         // ((((x^1)-0)-((3+2)+(0/1)))∙y) => (x-5)*y
         [TestMethod]
         public void SecondLevel()
         {
-            Expression<del2> expression = (x, y) => (((Math.Pow(x, 1)-0)-((3+2)+(0/1)))*y);
+            Expression<Del2> expression = (x, y) => (((Math.Pow(x, 1)-0)-((3+2)+(0/1)))*y);
             Assert.AreEqual(
-                 new Arithmetic.Product<double>(
-                     new Arithmetic.Minus<double>(
+                 new Product<double>(
+                     new Minus<double>(
                          VariableNode.Make<double>(0, "x"), Constant.Double(5.0)), 
                      VariableNode.Make<double>(1, "y")).ToString(),
                  SimplifyBinaryExpression(expression.Body).ToString());

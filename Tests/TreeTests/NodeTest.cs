@@ -4,7 +4,9 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators.Arithmetic;
+using AIRLab.CA.Tree.Operators.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.TreeTests
@@ -15,11 +17,11 @@ namespace Tests.TreeTests
         [TestMethod]
         public void TreeHasCorrectStringForm()
         {
-            var tree = new Arithmetic.Product<int>(VariableNode.Make<int>(0, "x"),
-                                                   new Arithmetic.Plus<int>(VariableNode.Make<int>(1, "y"),
+            var tree = new Product<int>(VariableNode.Make<int>(0, "x"),
+                                                   new Plus<int>(VariableNode.Make<int>(1, "y"),
                                                                             Constant.Int(3)));
             Assert.AreEqual("(x ∙ (y + 3))", tree.ToString());
-            var tree2 = new Logic.MultipleOr(new PredicateNode("P", VariableNode.Make<int>(0, "x")),
+            var tree2 = new MultipleOr(new PredicateNode("P", VariableNode.Make<int>(0, "x")),
                                                 new PredicateNode("Q", VariableNode.Make<int>(1, "y"), VariableNode.Make<int>(2, "z")),
                                                 new PredicateNode("H", new FunctionNode("f", VariableNode.Make<int>(0, "x")), new FunctionNode("c")));
             Assert.AreEqual("P(x) V Q(y,z) V H(f(x),c)", tree2.ToString());
@@ -38,7 +40,7 @@ namespace Tests.TreeTests
             Assert.AreEqual(variable.Type, typeof(int));
             Assert.AreEqual(variable.Children.Length, 0);
 
-            var op = new Arithmetic.Plus<int>(constant, variable);
+            var op = new Plus<int>(constant, variable);
             Assert.AreEqual(op.Children.Length, 2);
             Assert.AreEqual(op.Type, typeof(int));
             Assert.AreEqual(op.Parent, null);

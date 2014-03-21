@@ -5,13 +5,13 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Collections;
 using AIRLab.CA.Tools;
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     public interface INode : ICloneable
     {

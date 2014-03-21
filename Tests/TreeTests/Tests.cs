@@ -7,7 +7,8 @@
 using System.Linq.Expressions;
 using AIRLab.CA;
 using AIRLab.CA.Tools;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.TreeTests
@@ -15,9 +16,9 @@ namespace Tests.TreeTests
     [TestClass]
     public class Tests
     {
-        protected delegate double del();
-        protected delegate double del1(double p);
-        protected delegate double del2(double p1, double p2);
+        protected delegate double Del();
+        protected delegate double Del1(double p);
+        protected delegate double Del2(double p1, double p2);
 
         public static INode SimplifyBinaryExpression(Expression e)
         {

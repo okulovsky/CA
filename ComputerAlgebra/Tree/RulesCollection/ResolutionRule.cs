@@ -6,28 +6,29 @@
 
 using System.Linq;
 using AIRLab.CA.Resolution;
-using AIRLab.CA.Rules;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators.Logic;
+using AIRLab.CA.Tree.Rules;
 
-namespace AIRLab.CA.RulesCollection
+namespace AIRLab.CA.Tree.RulesCollection
 {
-    public partial class ResolutionRule : SelectClauseWriter
+    public class ResolutionRule : SelectClauseWriter
     {
         public static Rule Get()
         {
             return Rule
                 .New("Resolve", StdTags.Inductive, StdTags.Logic, StdTags.SafeResection)
                 .Select(A[ChildB], C[ChildD])
-                .Where<Logic.MultipleOr, SkolemPredicateNode, Logic.MultipleOr, SkolemPredicateNode>(z => UnificationService.CanUnificate(z.B, z.D)
-                                                                                                             && (z.B.IsNegate || z.D.IsNegate))
+                .Where<MultipleOr, SkolemPredicateNode, MultipleOr, SkolemPredicateNode>(z => 
+                    UnificationService.CanUnificate(z.B, z.D) && (z.B.IsNegate || z.D.IsNegate))
                 .Mod(Modificator);
         }
 
         /// <summary>
-        /// Пользуемся правилом резолюции: A V B, C V !B |- A V C. 
+        /// Using resolution rule: A V B, C V !B |- A V C. 
         /// </summary>
         /// <param name="z"></param>
-        private static void Modificator(TypizedDecorArray<Logic.MultipleOr, SkolemPredicateNode, Logic.MultipleOr, SkolemPredicateNode> z)
+        private static void Modificator(TypizedDecorArray<MultipleOr, SkolemPredicateNode, MultipleOr, SkolemPredicateNode> z)
         {
             var rules = UnificationService.GetUnificationRules(z.B.Node, z.D.Node);
             UnificationService.Unificate(z.A.Node, rules);
@@ -36,8 +37,8 @@ namespace AIRLab.CA.RulesCollection
             var cChildren = z.C.Node.Children.ToList();
             aChildren.Remove(z.B.Node);
             cChildren.Remove(z.D.Node);
-            z.A.Replace(new Logic.MultipleOr(aChildren.ToArray()));
-            z.C.Replace(new Logic.MultipleOr(cChildren.ToArray()));
+            z.A.Replace(new MultipleOr(aChildren.ToArray()));
+            z.C.Replace(new MultipleOr(cChildren.ToArray()));
         }
     }
 }

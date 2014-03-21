@@ -8,7 +8,7 @@ using System;
 using System.Collections;
 using System.Linq.Expressions;
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     public class Constant : Node
     {

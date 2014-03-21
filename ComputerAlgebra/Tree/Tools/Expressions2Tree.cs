@@ -4,11 +4,13 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-using System.Linq.Expressions;
 using System;
-using AIRLab.CA.Tree;
+using System.Linq.Expressions;
+using AIRLab.CA.Tools;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators.Arithmetic;
 
-namespace AIRLab.CA.Tools
+namespace AIRLab.CA.Tree.Tools
 {
     public class Expressions2Tree
     {
@@ -32,39 +34,39 @@ namespace AIRLab.CA.Tools
                 switch (e.NodeType)
                 {
                         // +
-                    case System.Linq.Expressions.ExpressionType.Add:                        
-                        return new Arithmetic.Plus<double>(GetTree(operand.Left), GetTree(operand.Right));   
+                    case ExpressionType.Add:                        
+                        return new Plus<double>(GetTree(operand.Left), GetTree(operand.Right));   
                         // -
-                    case System.Linq.Expressions.ExpressionType.Subtract:
-                        return new Arithmetic.Minus<double>(GetTree(operand.Left), GetTree(operand.Right));       
+                    case ExpressionType.Subtract:
+                        return new Minus<double>(GetTree(operand.Left), GetTree(operand.Right));       
                         // *        
-                    case System.Linq.Expressions.ExpressionType.Multiply:
-                        return new Arithmetic.Product<double>(GetTree(operand.Left), GetTree(operand.Right));
+                    case ExpressionType.Multiply:
+                        return new Product<double>(GetTree(operand.Left), GetTree(operand.Right));
                         // /
-                    case System.Linq.Expressions.ExpressionType.Divide:
-                        return new Arithmetic.Divide<double>(GetTree(operand.Left), GetTree(operand.Right));   
+                    case ExpressionType.Divide:
+                        return new Divide<double>(GetTree(operand.Left), GetTree(operand.Right));   
                         // ^
-                    case System.Linq.Expressions.ExpressionType.Power:
-                        return new Arithmetic.Pow<double>(GetTree(operand.Left), GetTree(operand.Right));
+                    case ExpressionType.Power:
+                        return new Pow<double>(GetTree(operand.Left), GetTree(operand.Right));
                 }
             }
-            if (e.NodeType.Equals(System.Linq.Expressions.ExpressionType.Negate))
+            if (e.NodeType.Equals(ExpressionType.Negate))
             {
-                return new Arithmetic.Negate<double>(GetTree(((UnaryExpression)e).Operand));
+                return new Negate<double>(GetTree(((UnaryExpression)e).Operand));
             }
-            if (e.NodeType.Equals(System.Linq.Expressions.ExpressionType.Call))
+            if (e.NodeType.Equals(ExpressionType.Call))
             {
                 var method = (MethodCallExpression)e;
                 if(method.Method.Equals(typeof(Math).GetMethod("Pow")))
-                    return new Arithmetic.Pow<double>(GetTree(method.Arguments[0]), GetTree(method.Arguments[1]));
+                    return new Pow<double>(GetTree(method.Arguments[0]), GetTree(method.Arguments[1]));
                 if (method.Method.Equals(typeof(Math).GetMethod("Cos")))
-                    return new Arithmetic.Cos(GetTree(method.Arguments[0]));
+                    return new Cos(GetTree(method.Arguments[0]));
                 if (method.Method.Equals(typeof(Math).GetMethod("Sin")))
-                    return new Arithmetic.Sin(GetTree(method.Arguments[0]));
+                    return new Sin(GetTree(method.Arguments[0]));
                 if (method.Method.Equals(typeof(Math).GetMethod("Tan")))
-                    return new Arithmetic.Tan(GetTree(method.Arguments[0]));
+                    return new Tan(GetTree(method.Arguments[0]));
                 if (method.Method.Equals(typeof(Math).GetMethod("Log", new[] { typeof(double) })))
-                    return new Arithmetic.Ln(GetTree(method.Arguments[0]));   
+                    return new Ln(GetTree(method.Arguments[0]));   
 
             }
             if (e.NodeType.Equals(System.Linq.Expressions.ExpressionType.Parameter))

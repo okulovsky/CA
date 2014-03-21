@@ -4,16 +4,16 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA.Rules;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tools;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators.Logic;
+using AIRLab.CA.Tree.Rules;
 
-namespace AIRLab.CA.Tools
+namespace AIRLab.CA.Tree.Tools
 {
-
     public class Expressions2LogicTree : LogicExpressions
     {
         public static INode Parse(Expression expr)
@@ -41,12 +41,12 @@ namespace AIRLab.CA.Tools
                 {
                     var operands = GetOperands(operand.Left, false).ToList();
                     operands.AddRange(GetOperands(operand.Right, false));
-                    return new Logic.MultipleOr(operands.ToArray());
+                    return new MultipleOr(operands.ToArray());
                 }
             }
             else
             {
-                return new Logic.MultipleOr(GetOperands(body, false).ToArray());
+                return new MultipleOr(GetOperands(body, false).ToArray());
             }
             throw new ParseException(string.Format("Unexepted expression '{0}'", body));
         }
@@ -81,7 +81,7 @@ namespace AIRLab.CA.Tools
                 {
                     throw new ParseException("Parse error");
                 }
-                if (method.Type == typeof (CABoolean))
+                if (method.Type == typeof (ComputerAlgebraBoolean))
                 {
                     foreach (var arg in argument.Expressions)
                     {

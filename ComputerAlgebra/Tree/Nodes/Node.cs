@@ -11,7 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using AIRLab.CA.Tools;
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     public abstract class Node : INode
     {

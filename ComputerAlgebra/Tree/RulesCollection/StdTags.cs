@@ -4,7 +4,7 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-namespace AIRLab.CA.RulesCollection
+namespace AIRLab.CA.Tree.RulesCollection
 {
     public static class StdTags
     {

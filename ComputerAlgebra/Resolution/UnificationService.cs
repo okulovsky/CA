@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AIRLab.CA.Tree;
 using AIRLab.CA.Tools;
+using AIRLab.CA.Tree.Nodes;
 
 namespace AIRLab.CA.Resolution
 {

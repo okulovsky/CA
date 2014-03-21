@@ -6,9 +6,12 @@
 
 using System;
 using System.Linq.Expressions;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tools;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators;
+using AIRLab.CA.Tree.Operators.Arithmetic;
 
-namespace AIRLab.CA.Tools
+namespace AIRLab.CA.Tree.Tools
 {
     class Tree2Expression
     {
@@ -25,32 +28,32 @@ namespace AIRLab.CA.Tools
 
         private static Expression GetTree(INode node)
         {
-            if (node is BinaryOp)
+            if (node is BinaryOperator)
             {
-                var operand = (BinaryOp)node;
-                if(operand is Arithmetic.Plus)
+                var operand = (BinaryOperator)node;
+                if(operand is Plus)
                     return Expression.Add(GetTree(operand.Children[0]), GetTree(operand.Children[1]));
-                if(operand is Arithmetic.Minus)
+                if(operand is Minus)
                     return Expression.Subtract(GetTree(operand.Children[0]), GetTree(operand.Children[1]));
-                if(operand is Arithmetic.Product)
+                if(operand is Product)
                     return Expression.Multiply(GetTree(operand.Children[0]), GetTree(operand.Children[1]));
-                if(operand is Arithmetic.Divide)
+                if(operand is Divide)
                     return Expression.Divide(GetTree(operand.Children[0]), GetTree(operand.Children[1]));
-                if(operand is Arithmetic.Pow)
+                if(operand is Pow)
                     return Expression.Power(GetTree(operand.Children[0]), GetTree(operand.Children[1]));                
             }
-            if (node is UnaryOp)
+            if (node is UnaryOperator)
             {
-                var operand = (UnaryOp)node;
-                if (operand is Arithmetic.Negate)
+                var operand = (UnaryOperator)node;
+                if (operand is Negate)
                     return Expression.Negate(GetTree(operand.Children[0]));
-                if (operand is Arithmetic.Sin)
+                if (operand is Sin)
                     return Expression.Call(typeof(Math).GetMethod("Sin"), GetTree(operand.Children[0]));
-                if (operand is Arithmetic.Cos)
+                if (operand is Cos)
                     return Expression.Call(typeof(Math).GetMethod("Cos"), GetTree(operand.Children[0]));
-                if (operand is Arithmetic.Tan)
+                if (operand is Tan)
                     return Expression.Call(typeof(Math).GetMethod("Tan"), GetTree(operand.Children[0]));                
-                if (operand is Arithmetic.Ln)
+                if (operand is Ln)
                     return Expression.Call(typeof(Math).GetMethod("Log", new Type[] { typeof(double) }), GetTree(operand.Children[0])); 
             }
             if (node is VariableNode)

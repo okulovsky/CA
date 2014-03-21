@@ -8,6 +8,7 @@ using System;
 using System.Linq.Expressions;
 using AIRLab.CA;
 using AIRLab.CA.Tools;
+using AIRLab.CA.Tree.Tools;
 
 namespace DifferentiateDemo
 {

@@ -6,10 +6,10 @@
 
 using System.Collections.Generic;
 using AIRLab.CA.Regression;
-using AIRLab.CA.Rules;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Rules;
 
-namespace AIRLab.CA.RulesCollection
+namespace AIRLab.CA.Tree.RulesCollection
 {
     public class RegressionRules : SelectClauseWriter
     {

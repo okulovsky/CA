@@ -7,10 +7,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using AIRLab.CA.Rules;
-using AIRLab.CA.RulesCollection;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Rules;
+using AIRLab.CA.Tree.RulesCollection;
 
-namespace AIRLab.CA.Tools
+namespace AIRLab.CA.Tree.Tools
 {
     public static class RulesLibrary
     {
@@ -24,24 +25,29 @@ namespace AIRLab.CA.Tools
         {
             var current = node;
             string firstRep;
+
             do
             {
                 firstRep = current.ToString();
                 foreach (var r in rules)
                 {
                     var instances = r.SelectWhere(current);
-                    if (instances == null || instances.Count() == 0) continue;
-                    foreach (var ins in instances)
+                    var whereOutputs = instances as WhereOutput[] ?? instances.ToArray();
+                    if (instances == null || !whereOutputs.Any()) 
+                        continue;
+
+                    foreach (var roots in whereOutputs.Select(r.Apply).Where(roots => roots != null && roots.Any() && roots[0] != null))
                     {
-                        var roots = r.Apply(ins);
-                        if (roots == null || roots.Count() == 0 || roots[0] == null) continue;
                         current = roots[0];
                         break;
                     }
                 }
-            } while (firstRep != current.ToString());
+            } 
+            while (firstRep != current.ToString());
+
             return current;
-        } 
+        }
+
         /// <summary>
         /// Get a list of algebraic and logic simplification rules
         /// </summary>
@@ -54,6 +60,7 @@ namespace AIRLab.CA.Tools
             simplificationRules.AddRange(LogicRules.Get().Where(r => r.Tags.Contains(StdTags.Simplification)));
             return simplificationRules;
         }
+
         /// <summary>
         /// Get a list of simple differentiation rules
         /// </summary>
@@ -62,6 +69,7 @@ namespace AIRLab.CA.Tools
         {
             return DifferentiationRules.Get().ToList();
         }
+
         /// <summary>
         /// You can run regression algorithm by applying these rules 
         /// </summary>
@@ -72,6 +80,7 @@ namespace AIRLab.CA.Tools
         {
             return RegressionRules.Get(inSample, exactResult).ToList();
         }
+
         /// <summary>
         /// Rule from resolution technique, used for deciding the satisfiability of a propositional formula, in first-order-logic 
         /// </summary>

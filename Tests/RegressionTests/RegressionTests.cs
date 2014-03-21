@@ -8,7 +8,7 @@ using System;
 using AIRLab.CA;
 using AIRLab.CA.Regression;
 using AIRLab.CA.Tools;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.RegressionTests
@@ -17,7 +17,7 @@ namespace Tests.RegressionTests
     public class RegressionTests
     {
         private const double NoiseLevel = 0.01;
-        private static readonly Random Rnd = new Random();
+        private static readonly Random RandomNumberGenerator = new Random();
 
         [TestMethod]
         public void TwoVarsTreeOps()
@@ -26,9 +26,9 @@ namespace Tests.RegressionTests
             var formula = service.GetFormula();
             var noiseFormula = formula.Clone<INode>();
             NoisyConstants(noiseFormula);
-            var alg = new RegressionAlgorithm(noiseFormula, service.InSamples, service.ExactResult);
-            alg.Run();
-            Assert.AreNotEqual(null, alg.GetResult());  
+            var algorithm = new RegressionAlgorithm(noiseFormula, service.InSamples, service.ExactResult);
+            algorithm.Run();
+            Assert.AreNotEqual(null, algorithm.GetResult());
         }
 
         private static void NoisyConstants(INode node)
@@ -39,17 +39,16 @@ namespace Tests.RegressionTests
                 {
                     NoisyConstants(child);
                 }
+                return;
             }
-            else
-            {
-                if (node is Constant)
-                {
-                    var oldValue = ((Constant<double>)node).Value;
-                    var childIndex = node.Parent.IndexOfChild(node);
-                    INode newConst = new Constant<double>(oldValue + Math.Pow((-1), Rnd.Next(3)) * Rnd.Next((int)(oldValue / 2), (int)(oldValue * 2)) * NoiseLevel);
-                    node.Parent.Children[childIndex] = newConst;
-                }
-            }
+            
+            if (!(node is Constant)) 
+                return;
+
+            var oldValue = ((Constant<double>)node).Value;
+            var childIndex = node.Parent.IndexOfChild(node);
+            INode newConst = new Constant<double>(oldValue + Math.Pow((-1), RandomNumberGenerator.Next(3)) * RandomNumberGenerator.Next((int)(oldValue / 2), (int)(oldValue * 2)) * NoiseLevel);
+            node.Parent.Children[childIndex] = newConst;
         }
-    }    
+    }
 }

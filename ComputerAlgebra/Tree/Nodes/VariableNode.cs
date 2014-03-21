@@ -8,7 +8,7 @@ using System;
 using System.Collections;
 using System.Linq.Expressions;
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     public class VariableNode : TermNode
     {
@@ -28,14 +28,10 @@ namespace AIRLab.CA.Tree
         public override Expression BuildExpression()
         {
             var arguments = Expression.Parameter(typeof (IList));
-            return 
-                Expression.Lambda (
-                    Expression.Block(
-                        Expression.Convert(
-                            Expression.Call(arguments, typeof (IList).GetMethod("get_Item"),
-                                            Expression.Constant(Index)), 
-                        Type)), 
-                arguments);
+            var called = Expression.Call(arguments, typeof (IList).GetMethod("get_Item"), Expression.Constant(Index));
+            var converted = Expression.Convert(called, Type);
+            var block = Expression.Block(converted);
+            return Expression.Lambda(block, arguments);
         }
 
         public override string ToString()

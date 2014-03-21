@@ -9,6 +9,7 @@ using System.Linq;
 using AIRLab.CA;
 using AIRLab.CA.Regression;
 using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
 
 namespace CADemo
 {

@@ -4,18 +4,18 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-namespace AIRLab.CA.Tools
+namespace AIRLab.CA.Tree.Tools
 {
-    public class CABoolean 
+    public class ComputerAlgebraBoolean 
     {
-        public static CABoolean operator |(CABoolean node1, CABoolean node2)
+        public static ComputerAlgebraBoolean operator |(ComputerAlgebraBoolean node1, ComputerAlgebraBoolean node2)
         {
-            return new CABoolean();
+            return new ComputerAlgebraBoolean();
         }
 
-        public static CABoolean operator !(CABoolean node1)
+        public static ComputerAlgebraBoolean operator !(ComputerAlgebraBoolean node1)
         {
-            return new CABoolean();
+            return new ComputerAlgebraBoolean();
         }
     }
 }

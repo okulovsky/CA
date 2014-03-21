@@ -6,10 +6,11 @@
 
 using System;
 using System.Collections.Generic;
-using AIRLab.CA.Rules;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Operators.Arithmetic;
+using AIRLab.CA.Tree.Rules;
 
-namespace AIRLab.CA.RulesCollection
+namespace AIRLab.CA.Tree.RulesCollection
 {
     public class AlgebraicRules : SelectClauseWriter
     {
@@ -18,110 +19,110 @@ namespace AIRLab.CA.RulesCollection
             yield return Rule
                 .New("*0", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[ChildB, ChildC])
-                .Where<Arithmetic.Product<double>, Constant<double>, INode>(z => z.B.Value == 0)
+                .Where<Product<double>, Constant<double>, INode>(z => z.B.Value == 0d)
                 .Mod(z => z.A.Replace(z.B.Node));
 
             yield return Rule
                 .New("*1", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[ChildB, ChildC])
-                .Where<Arithmetic.Product<double>, Constant<double>, INode>(z => z.B.Value == 1)
+                .Where<Product<double>, Constant<double>, INode>(z => z.B.Value == 1d)
                 .Mod(z => z.A.Replace(z.C.Node));
 
             yield return Rule
                 .New("+0", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[ChildB, ChildC])
-                .Where<Arithmetic.Plus<double>, Constant<double>, INode>(z => z.B.Value == 0)
+                .Where<Plus<double>, Constant<double>, INode>(z => z.B.Value == 0d)
                 .Mod(z => z.A.Replace(z.C.Node));
 
             yield return Rule
                 .New("-0", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Minus<double>, INode, Constant<double>>(z => z.C.Value == 0)
+                .Where<Minus<double>, INode, Constant<double>>(z => z.C.Value == 0d)
                 .Mod(z => z.A.Replace(z.B.Node));
 
             yield return Rule
                 .New("0-", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Minus<double>, Constant<double>, INode>(z => z.B.Value == 0)
-                .Mod(z => z.A.Replace(new Arithmetic.Negate<double>(z.C.Node)));
+                .Where<Minus<double>, Constant<double>, INode>(z => z.B.Value == 0d)
+                .Mod(z => z.A.Replace(new Negate<double>(z.C.Node)));
 
             yield return Rule
                 .New("/1", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Divide<double>, INode, Constant<double>>(z => z.C.Value == 1)
+                .Where<Divide<double>, INode, Constant<double>>(z => z.C.Value == 1d)
                 .Mod(z => z.A.Replace(z.B.Node));
 
             yield return Rule
                 .New("0/", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Divide<double>, Constant<double>, INode>(z => z.B.Value == 0)
+                .Where<Divide<double>, Constant<double>, INode>(z => z.B.Value == 0d)
                 .Mod(z => z.A.Replace(z.B.Node));
 
             yield return Rule
                 .New("0^", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Pow<double>, Constant<double>, INode>(z => z.B.Value == 0)
+                .Where<Pow<double>, Constant<double>, INode>(z => z.B.Value == 0d)
                 .Mod(z => z.A.Replace(z.B.Node));
 
             yield return Rule
                 .New("^1", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Pow<double>, INode, Constant<double>>(z => z.C.Value == 1)
+                .Where<Pow<double>, INode, Constant<double>>(z => z.C.Value == 1d)
                 .Mod(z => z.A.Replace(z.B.Node));
 
             yield return Rule
                 .New("^0", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Pow<double>, INode, Constant<double>>(z => z.C.Value == 0)
+                .Where<Pow<double>, INode, Constant<double>>(z => z.C.Value == 0d)
                 .Mod(z => z.A.Replace(Constant.Double(1)));
 
             yield return Rule
                 .New("(-0)", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B])
-                .Where<Arithmetic.Negate<double>, Constant<double>>(z => z.B.Value == 0)
+                .Where<Negate<double>, Constant<double>>(z => z.B.Value == 0d)
                 .Mod(z => z.A.Replace(z.B.Node));
 
             yield return Rule
                 .New("C+C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Plus<double>, Constant<double>, Constant<double>>()
+                .Where<Plus<double>, Constant<double>, Constant<double>>()
                 .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value + z.C.Node.Value)));
 
             yield return Rule
                 .New("C*C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Product<double>, Constant<double>, Constant<double>>()
+                .Where<Product<double>, Constant<double>, Constant<double>>()
                 .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value * z.C.Node.Value)));
 
             yield return Rule
                 .New("C-C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Minus<double>, Constant<double>, Constant<double>>()
+                .Where<Minus<double>, Constant<double>, Constant<double>>()
                 .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value - z.C.Node.Value)));
 
             yield return Rule
                 .New("C^C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Pow<double>, Constant<double>, Constant<double>>()
+                .Where<Pow<double>, Constant<double>, Constant<double>>()
                 .Mod(z => z.A.Replace(Constant.Double(Math.Pow(z.B.Node.Value, z.C.Node.Value))));
 
             yield return Rule
                 .New("C/C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
-                .Where<Arithmetic.Divide<double>, Constant<double>, Constant<double>>()
+                .Where<Divide<double>, Constant<double>, Constant<double>>()
                 .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value / z.C.Node.Value)));
 
             yield return Rule
                 .New("(x+C)+C", StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
-                .Where<Arithmetic.Plus, Arithmetic.Plus, INode, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(new Arithmetic.Plus<double>(z.C.Node, Constant.Double(z.D.Node.Value + z.E.Node.Value))));
+                .Where<Plus, Plus, INode, Constant<double>, Constant<double>>()
+                .Mod(z => z.A.Replace(new Plus<double>(z.C.Node, Constant.Double(z.D.Node.Value + z.E.Node.Value))));
 
             yield return Rule
                 .New("(x-C)+C", StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[ChildB[C, D], ChildE])
-                .Where<Arithmetic.Plus, Arithmetic.Minus, INode, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(new Arithmetic.Plus<double>(z.C.Node, Constant.Double(z.E.Node.Value - z.D.Node.Value))));
+                .Where<Plus, Minus, INode, Constant<double>, Constant<double>>()
+                .Mod(z => z.A.Replace(new Plus<double>(z.C.Node, Constant.Double(z.E.Node.Value - z.D.Node.Value))));
         }
     }
 }

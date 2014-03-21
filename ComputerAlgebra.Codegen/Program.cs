@@ -5,6 +5,7 @@
 //
 
 using System;
+using System.Text;
 using System.Windows.Forms;
 using AIRLab.CA.Tools;
 namespace Codegen
@@ -33,22 +34,22 @@ namespace Codegen
 
         private static string MakeTypizedNodeArray(int i)
         {
-            return "TypizedNodeArray<" + G(i) + ">";
+            return string.Format("TypizedNodeArray<{0}>", G(i));
         }
 
         private static string MakeTypized(int i)
         {
-            var result = "";
-            result += "public class TypizedNodeArray<" + G(i) + "> : WhereOutput "+Where(i)+"{ \n";
+            var result = new StringBuilder();
+            result.Append("public class TypizedNodeArray<" + G(i) + "> : WhereOutput "+Where(i)+"{ \n");
             
             for (var j = 0; j < i; j++)
-                result += "public T" + j + " " + Letters[j] + " { get; set; }\n";
+                result.Append("public T" + j + " " + Letters[j] + " { get; set; }\n");
 
-            result += "override protected ModInput MakeSafeRuleInstance(INode[] c) {\n";
-            result += "return new TypizedDecorArray<" + G(i) + ">(c);\n";
-            result += "}\n";
-            result += "}\n";
-            return result;
+            result.Append("override protected ModInput MakeSafeRuleInstance(INode[] c) {\n");
+            result.Append("return new TypizedDecorArray<" + G(i) + ">(c);\n");
+            result.Append("}\n");
+            result.Append("}\n");
+            return result.ToString();
         }
 
         private static string MakeDecor(int i)
