@@ -67,7 +67,7 @@ namespace Tests.TreeTests
         {
             Expression<Del1> expression = (x) => Math.Pow(x, 3);
             Assert.AreEqual(
-                new Product<double>(Constant.Double(3.0), new Pow<double>(VariableNode.Make<double>(0, "x"), Constant.Double(2.0))).ToString(),
+                new ScalarProduct<double>(Constant.Double(3.0), new Pow<double>(VariableNode.Make<double>(0, "x"), Constant.Double(2.0))).ToString(),
                 ComputerAlgebra.Differentiate(Expressions2Tree.Parse(expression.Body), variable: "x").ToString());
         }
 
@@ -77,7 +77,7 @@ namespace Tests.TreeTests
         {
             Expression<Del1> expression = (x) => Math.Log(Math.Pow(x, 2));
             Assert.AreEqual(
-                new Divide<double>(new Product<double>(Constant.Double(2), VariableNode.Make<double>(0, "x")),
+                new Divide<double>(new ScalarProduct<double>(Constant.Double(2), VariableNode.Make<double>(0, "x")),
                     new Pow<double>(VariableNode.Make<double>(0, "x"), Constant.Double(2))).ToString(),
                 ComputerAlgebra.Differentiate(Expressions2Tree.Parse(expression.Body), variable: "x").ToString()
             );
@@ -89,7 +89,7 @@ namespace Tests.TreeTests
         {
             Expression<Del2> expression = (x, y) => Math.Pow(x, y);
             Assert.AreEqual(
-                new Product<double>(
+                new ScalarProduct<double>(
                     new Pow<double>(
                         VariableNode.Make<double>(0, "x"),
                         VariableNode.Make<double>(1, "y")),
@@ -104,7 +104,7 @@ namespace Tests.TreeTests
         {
             Expression<Del2> expression = (x, y) => Math.Pow(x, y);
             Assert.AreEqual(
-                new Product<double>(
+                new ScalarProduct<double>(
                     new Pow<double>(
                         VariableNode.Make<double>(0, "x"),
                         VariableNode.Make<double>(1, "y")),

@@ -6,7 +6,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using AIRLab.CA.Rules;
 using AIRLab.CA.Tree.Nodes;
 using AIRLab.CA.Tree.Rules;
 using AIRLab.CA.Tree.RulesCollection;

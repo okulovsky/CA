@@ -8,10 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AIRLab.CA.Tools;
-using AIRLab.CA.Tree;
 using AIRLab.CA.Tree.Nodes;
 
-namespace AIRLab.CA.Rules
+namespace AIRLab.CA.Tree.Rules
 {
     public abstract class WhereOutput
     {

@@ -8,7 +8,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA.Rules;
 using AIRLab.CA.Tree.Nodes;
 using AIRLab.CA.Tree.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

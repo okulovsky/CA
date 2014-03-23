@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AIRLab.CA.Rules;
 using AIRLab.CA.Tree.Nodes;
 
 namespace AIRLab.CA.Tree.Rules

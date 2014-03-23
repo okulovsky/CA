@@ -7,7 +7,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AIRLab.CA.Rules
+namespace AIRLab.CA.Tree.Rules
 {
 
         public enum LetterRecursionType

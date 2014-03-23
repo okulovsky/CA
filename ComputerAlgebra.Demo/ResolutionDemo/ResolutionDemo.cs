@@ -7,7 +7,6 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA.Tools;
 using AIRLab.CA;
 using AIRLab.CA.Tree.Rules;
 using AIRLab.CA.Tree.Tools;

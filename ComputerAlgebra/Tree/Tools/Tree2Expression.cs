@@ -31,11 +31,11 @@ namespace AIRLab.CA.Tree.Tools
             if (node is BinaryOperator)
             {
                 var operand = (BinaryOperator)node;
-                if(operand is Plus)
+                if(operand is Addition)
                     return Expression.Add(GetTree(operand.Children[0]), GetTree(operand.Children[1]));
                 if(operand is Minus)
                     return Expression.Subtract(GetTree(operand.Children[0]), GetTree(operand.Children[1]));
-                if(operand is Product)
+                if(operand is ScalarProduct)
                     return Expression.Multiply(GetTree(operand.Children[0]), GetTree(operand.Children[1]));
                 if(operand is Divide)
                     return Expression.Divide(GetTree(operand.Children[0]), GetTree(operand.Children[1]));

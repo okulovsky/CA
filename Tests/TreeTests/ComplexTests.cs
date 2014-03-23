@@ -21,7 +21,7 @@ namespace Tests.TreeTests
         {
             Expression<Del2> expression = (x, y) => ((x + y) + 0) * 1;
             Assert.AreEqual(
-                 new Plus<double>(VariableNode.Make<double>(0, "x"), VariableNode.Make<double>(1, "y")).ToString(),
+                 new Addition<double>(VariableNode.Make<double>(0, "x"), VariableNode.Make<double>(1, "y")).ToString(),
                  SimplifyBinaryExpression(expression.Body).ToString());
         }
 
@@ -31,7 +31,7 @@ namespace Tests.TreeTests
         {
             Expression<Del2> expression = (x, y) => (((Math.Pow(x, 1)-0)-((3+2)+(0/1)))*y);
             Assert.AreEqual(
-                 new Product<double>(
+                 new ScalarProduct<double>(
                      new Minus<double>(
                          VariableNode.Make<double>(0, "x"), Constant.Double(5.0)), 
                      VariableNode.Make<double>(1, "y")).ToString(),

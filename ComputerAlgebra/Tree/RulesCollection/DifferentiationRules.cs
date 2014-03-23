@@ -25,8 +25,8 @@ namespace AIRLab.CA.Tree.RulesCollection
             yield return Rule
                 .New("d(U+V)/dx", StdTags.Differentiation, StdTags.Algebraic)
                 .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
-                .Where<Dif<double>, Plus<double>, INode, INode, VariableNode>()
-                .Mod(z => z.A.Replace(new Plus<double>(new Dif<double>(z.C.Node, z.E.Node), new Dif<double>(z.D.Node, (VariableNode)z.E.Node.Clone()))));
+                .Where<Dif<double>, Addition<double>, INode, INode, VariableNode>()
+                .Mod(z => z.A.Replace(new Addition<double>(new Dif<double>(z.C.Node, z.E.Node), new Dif<double>(z.D.Node, (VariableNode)z.E.Node.Clone()))));
 
             yield return Rule
                 .New("d(U-V)/dx", StdTags.Differentiation, StdTags.Algebraic)
@@ -37,10 +37,10 @@ namespace AIRLab.CA.Tree.RulesCollection
             yield return Rule
                 .New("d(U*V)/dx", StdTags.Differentiation, StdTags.Algebraic)
                 .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
-                .Where<Dif<double>, Product<double>, INode, INode, VariableNode>()
-                .Mod(z => z.A.Replace(new Plus<double>(
-                    new Product<double>(new Dif<double>(z.C.Node, z.E.Node), z.D.Node),
-                    new Product<double>(new Dif<double>((INode)z.D.Node.Clone(), (VariableNode)z.E.Node.Clone()), (INode)z.C.Node.Clone()))));
+                .Where<Dif<double>, ScalarProduct<double>, INode, INode, VariableNode>()
+                .Mod(z => z.A.Replace(new Addition<double>(
+                    new ScalarProduct<double>(new Dif<double>(z.C.Node, z.E.Node), z.D.Node),
+                    new ScalarProduct<double>(new Dif<double>((INode)z.D.Node.Clone(), (VariableNode)z.E.Node.Clone()), (INode)z.C.Node.Clone()))));
 
             yield return Rule
                 .New("d(U/V)/dx", StdTags.Differentiation, StdTags.Algebraic)
@@ -48,9 +48,9 @@ namespace AIRLab.CA.Tree.RulesCollection
                 .Where<Dif<double>, Divide<double>, INode, INode, VariableNode>()
                 .Mod(z => z.A.Replace(new Divide<double>(
                         new Minus<double>(
-                            new Product<double>(
+                            new ScalarProduct<double>(
                                 new Dif<double>(z.C.Node, z.E.Node), z.D.Node),
-                            new Product<double>(
+                            new ScalarProduct<double>(
                                 new Dif<double>((INode)z.D.Node.Clone(), (VariableNode)z.E.Node.Clone()), (INode)z.C.Node.Clone())),
                         new Pow<double>((INode)z.D.Node.Clone(), Constant.Double(2.0)))));
 
@@ -58,7 +58,7 @@ namespace AIRLab.CA.Tree.RulesCollection
                 .New("d(U^c)/dx", StdTags.Differentiation, StdTags.Algebraic)
                 .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
                 .Where<Dif<double>, Pow<double>, INode, Constant<double>, VariableNode>()
-                .Mod(z => z.A.Replace(new Product<double>(new Product<double>(
+                .Mod(z => z.A.Replace(new ScalarProduct<double>(new ScalarProduct<double>(
                     Constant.Double(z.D.Node.Value),
                     new Pow<double>(z.C.Node, Constant.Double(z.D.Node.Value - 1))), new Dif<double>((INode)z.C.Node.Clone(), (VariableNode)z.E.Node.Clone()))));
 
@@ -66,12 +66,12 @@ namespace AIRLab.CA.Tree.RulesCollection
                .New("d(U^V)/dx", StdTags.Differentiation, StdTags.Algebraic)
                .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
                .Where<Dif<double>, Pow<double>, INode, INode, VariableNode>()
-               .Mod(z => z.A.Replace(new Product<double>(
+               .Mod(z => z.A.Replace(new ScalarProduct<double>(
                    new Pow<double>(z.C.Node, z.D.Node),
-                   new Plus<double>(
-                       new Product<double>(new Dif<double>((INode)z.D.Node.Clone(), z.E.Node), new Ln((INode)z.C.Node.Clone())),
+                   new Addition<double>(
+                       new ScalarProduct<double>(new Dif<double>((INode)z.D.Node.Clone(), z.E.Node), new Ln((INode)z.C.Node.Clone())),
                        new Divide<double>(
-                           new Product<double>((INode)z.D.Node.Clone(), new Dif<double>((INode)z.C.Node.Clone(), (VariableNode)z.E.Node.Clone())),
+                           new ScalarProduct<double>((INode)z.D.Node.Clone(), new Dif<double>((INode)z.C.Node.Clone(), (VariableNode)z.E.Node.Clone())),
                            (INode)z.C.Node.Clone())))));
             
             yield return Rule

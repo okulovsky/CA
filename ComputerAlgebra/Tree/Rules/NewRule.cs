@@ -1,6 +1,4 @@
-﻿using AIRLab.CA.Rules;
-
-namespace AIRLab.CA.Tree.Rules
+﻿namespace AIRLab.CA.Tree.Rules
 {
     public class NewRule
     {

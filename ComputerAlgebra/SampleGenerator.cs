@@ -11,6 +11,7 @@ using AIRLab.CA.Tools;
 using AIRLab.CA.Tree.Nodes;
 using AIRLab.CA.Tree.Operators;
 using AIRLab.CA.Tree.Operators.Arithmetic;
+using AIRLab.CA.Tree.Tools;
 
 namespace AIRLab.CA
 {
@@ -180,17 +181,17 @@ namespace AIRLab.CA
             switch (rndOper)
             {
                 case 0:
-                    return new Plus<double>(child1, child2);
+                    return new Addition<double>(child1, child2);
                 case 1:
                     return new Minus<double>(child1, child2);
                 case 2:
-                    return new Product<double>(child1, child2);
+                    return new ScalarProduct<double>(child1, child2);
                 case 3:
                     return new Divide<double>(child1, child2);
                 case 4:
                     return new Pow<double>(child1, child2);
             }
-            return new Plus<double>(child1, child2);
+            return new Addition<double>(child1, child2);
         }
 
         protected List<int> GetUniqueRandom(int length)

@@ -34,14 +34,14 @@ namespace AIRLab.CA.Tree.Tools
                 switch (e.NodeType)
                 {
                         // +
-                    case ExpressionType.Add:                        
-                        return new Plus<double>(GetTree(operand.Left), GetTree(operand.Right));   
+                    case ExpressionType.Add:
+                        return new Addition<double>(GetTree(operand.Left), GetTree(operand.Right));   
                         // -
                     case ExpressionType.Subtract:
                         return new Minus<double>(GetTree(operand.Left), GetTree(operand.Right));       
                         // *        
                     case ExpressionType.Multiply:
-                        return new Product<double>(GetTree(operand.Left), GetTree(operand.Right));
+                        return new ScalarProduct<double>(GetTree(operand.Left), GetTree(operand.Right));
                         // /
                     case ExpressionType.Divide:
                         return new Divide<double>(GetTree(operand.Left), GetTree(operand.Right));   

@@ -17,8 +17,8 @@ namespace Tests.TreeTests
         [TestMethod]
         public void TreeHasCorrectStringForm()
         {
-            var tree = new Product<int>(VariableNode.Make<int>(0, "x"),
-                                                   new Plus<int>(VariableNode.Make<int>(1, "y"),
+            var tree = new ScalarProduct<int>(VariableNode.Make<int>(0, "x"),
+                                                   new Addition<int>(VariableNode.Make<int>(1, "y"),
                                                                             Constant.Int(3)));
             Assert.AreEqual("(x ∙ (y + 3))", tree.ToString());
             var tree2 = new MultipleOr(new PredicateNode("P", VariableNode.Make<int>(0, "x")),
@@ -40,7 +40,7 @@ namespace Tests.TreeTests
             Assert.AreEqual(variable.Type, typeof(int));
             Assert.AreEqual(variable.Children.Length, 0);
 
-            var op = new Plus<int>(constant, variable);
+            var op = new Addition<int>(constant, variable);
             Assert.AreEqual(op.Children.Length, 2);
             Assert.AreEqual(op.Type, typeof(int));
             Assert.AreEqual(op.Parent, null);

@@ -4,10 +4,9 @@
 // imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
 //
 
-using AIRLab.CA.Tree;
 using AIRLab.CA.Tree.Nodes;
 
-namespace AIRLab.CA.Rules
+namespace AIRLab.CA.Tree.Rules
 {
 
     public class ModInput
