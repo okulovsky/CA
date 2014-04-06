@@ -1,27 +1,27 @@
-// ComputerAlgebra Library
+﻿// ComputerAlgebra Library
 //
-// Copyright � Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA;
+using AIRLab.CA.ExpressionConverters;
+using AIRLab.CA.Groups;
 using AIRLab.CA.Resolution;
 using AIRLab.CA.Tree.Nodes;
 using AIRLab.CA.Tree.Operators.Logic;
 using AIRLab.CA.Tree.Rules;
-using AIRLab.CA.Tree.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.ResolutionTests
+namespace AIRLab.CA.Tests.ResolutionTests
 {
     [TestClass]
     public class ResolutionTests : LogicExpressions
     {
-        delegate ComputerAlgebraBoolean Del1(int x);
-        delegate ComputerAlgebraBoolean Del2(int x, int y);
-        delegate ComputerAlgebraBoolean Del3(int x, int y, int z);
+        delegate BooleanGroup Del1(int x);
+        delegate BooleanGroup Del2(int x, int y);
+        delegate BooleanGroup Del3(int x, int y, int z);
 
         [TestMethod]
         public void ParseTest()
@@ -157,7 +157,7 @@ namespace Tests.ResolutionTests
             var rules = UnificationService.GetUnificationRules((SkolemPredicateNode)A.Children[0], B);
             Assert.AreEqual(3, rules.Count);
             UnificationService.Unificate(A, rules);
-            Assert.AreEqual("!P(a,b,c,s0) V ANS(f(g(c,b,h(a,c,s0))))", A.ToString());
+            Assert.AreEqual("!P(a,b,c,s0) ∨ ANS(f(g(c,b,h(a,c,s0))))", A.ToString());
         }
 
         [TestMethod]

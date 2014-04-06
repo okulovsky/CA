@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4C4EA496-89A1-4FE1-B18C-28E2577A2151}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AIRLab.CA</RootNamespace>
+    <AssemblyName>AIRLab.CA</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComputerAlgebra.cs" />
+    <Compile Include="ConsoleGui.cs" />
+    <Compile Include="Exceptions\ComputerAlgebraException.cs" />
+    <Compile Include="Exceptions\ParseException.cs" />
+    <Compile Include="ExpressionConverters\Expressions2LogicTree.cs" />
+    <Compile Include="ExpressionConverters\Expressions2Tree.cs" />
+    <Compile Include="ExpressionConverters\Tree2Expression.cs" />
+    <Compile Include="Groups\BooleanGroup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Regression\RegressionAlgorithm.cs" />
+    <Compile Include="Regression\RegressionRules.cs" />
+    <Compile Include="Regression\RegressionStopCondition.cs" />
+    <Compile Include="Resolution\UnificationService.cs" />
+    <Compile Include="RulesLibrary.cs" />
+    <Compile Include="SampleGenerator\SampleGenerator.cs" />
+    <Compile Include="Tree\Nodes\ChildrenCollection.cs" />
+    <Compile Include="Tree\Nodes\ConstantNode.cs" />
+    <Compile Include="Tree\Nodes\FunctionNode.cs" />
+    <Compile Include="Tree\Nodes\IChildrenCollection.cs" />
+    <Compile Include="Tree\Nodes\INode.cs" />
+    <Compile Include="Tree\Nodes\ITermNode.cs" />
+    <Compile Include="Tree\Nodes\Node.cs" />
+    <Compile Include="Tree\Nodes\NodeExtensions.cs" />
+    <Compile Include="Tree\Nodes\PredicateNode.cs" />
+    <Compile Include="Tree\Nodes\SkolemPredicateNode.cs" />
+    <Compile Include="Tree\Nodes\TermNode.cs" />
+    <Compile Include="Tree\Nodes\VariableNode.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Addition.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Cos.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Divide.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Ln.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Minus.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Negate.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Pow.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\ScalarProduct.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Sin.cs" />
+    <Compile Include="Tree\Operators\Arithmetic\Tan.cs" />
+    <Compile Include="Tree\Operators\BinaryOperator.cs" />
+    <Compile Include="Tree\Operators\Comparison\Equal.cs" />
+    <Compile Include="Tree\Operators\Comparison\LessThan.cs" />
+    <Compile Include="Tree\Operators\Differentiation\Dif.cs" />
+    <Compile Include="Tree\Operators\Logic\And.cs" />
+    <Compile Include="Tree\Operators\Logic\MultipleAnd.cs" />
+    <Compile Include="Tree\Operators\Logic\MultipleOr.cs" />
+    <Compile Include="Tree\Operators\Logic\Not.cs" />
+    <Compile Include="Tree\Operators\Logic\Or.cs" />
+    <Compile Include="Tree\Operators\MultpleOperator.cs" />
+    <Compile Include="Tree\Operators\TernaryOperator.cs" />
+    <Compile Include="Tree\Operators\UnaryFunction.cs" />
+    <Compile Include="Tree\Operators\UnaryOperator.cs" />
+    <Compile Include="Tree\RulesCollection\AlgebraicRules.cs" />
+    <Compile Include="Tree\RulesCollection\DifferentiationRules.cs" />
+    <Compile Include="Tree\RulesCollection\FieldFactory.cs" />
+    <Compile Include="Tree\RulesCollection\LogicRules.cs" />
+    <Compile Include="Tree\RulesCollection\ResolutionRule.cs" />
+    <Compile Include="Tree\RulesCollection\StdTags.cs" />
+    <Compile Include="Tree\Rules\BasicSelector.cs" />
+    <Compile Include="Tree\Rules\ComplexSelector.cs" />
+    <Compile Include="Tree\Rules\IComplexSelector.cs" />
+    <Compile Include="Tree\Rules\IModInput.cs" />
+    <Compile Include="Tree\Rules\INewRule.cs" />
+    <Compile Include="Tree\Rules\INodeDecorator.cs" />
+    <Compile Include="Tree\Rules\IRule.cs" />
+    <Compile Include="Tree\Rules\ISelectClauseNode.cs" />
+    <Compile Include="Tree\Rules\ISelectOutput.cs" />
+    <Compile Include="Tree\Rules\ISelectRule.cs" />
+    <Compile Include="Tree\Rules\ISelectWhereRule.cs">
+      <DependentUpon>ISelectWhereRule.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\ITypizedDecorArray.cs">
+      <DependentUpon>ITypizedDecorArray.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\ITypizedNodeArray.cs">
+      <DependentUpon>ITypizedNodeArray.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\IWhereOutput.cs" />
+    <Compile Include="Tree\Rules\LetterRecursionType.cs" />
+    <Compile Include="Tree\Rules\LogicExpressions.cs">
+      <DependentUpon>LogicExpressions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\ModInput.cs" />
+    <Compile Include="Tree\Rules\NewRule.cs" />
+    <Compile Include="Tree\Rules\NewRuleExtensions.cs" />
+    <Compile Include="Tree\Rules\NodeDecorator.cs" />
+    <Compile Include="Tree\Rules\NodeInterfaceExtensions.cs" />
+    <Compile Include="Tree\Rules\Rule.cs" />
+    <Compile Include="Tree\Rules\SelectClauseNode.cs" />
+    <Compile Include="Tree\Rules\SelectClauseWriter.cs">
+      <DependentUpon>SelectClauseWriter.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\SelectOutput.cs" />
+    <Compile Include="Tree\Rules\SelectRule.cs" />
+    <Compile Include="Tree\Rules\SelectRuleInterfaceExtensions1.cs">
+      <DependentUpon>SelectRuleInterfaceExtensions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\SelectWhereRule.cs">
+      <DependentUpon>SelectWhereRule.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\SelectWhereRuleExtensions.cs">
+      <DependentUpon>SelectWhereRuleExtensions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\TypizedDecorArray.cs">
+      <DependentUpon>TypizedDecorArray.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\TypizedNodeArray.cs">
+      <DependentUpon>TypizedNodeArray.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Tree\Rules\WhereOutput.cs" />
+    <Compile Include="Tree\Tools\Helper.cs" />
+    <Compile Include="Tree\Tools\NodeElementNames.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Copyright.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tree\Rules\ISelectWhereRule.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ISelectWhereRule.cs</LastGenOutput>
+    </Content>
+    <Content Include="Tree\Rules\ITypizedDecorArray.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ITypizedDecorArray.cs</LastGenOutput>
+    </Content>
+    <Content Include="Tree\Rules\ITypizedNodeArray.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ITypizedNodeArray.cs</LastGenOutput>
+    </Content>
+    <None Include="Tree\Rules\LogicExpressions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LogicExpressions.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tree\Rules\SelectClauseWriter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SelectClauseWriter.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tree\Rules\SelectRuleInterfaceExtensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SelectRuleInterfaceExtensions1.cs</LastGenOutput>
+    </None>
+    <None Include="Tree\Rules\SelectWhereRule.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SelectWhereRule.cs</LastGenOutput>
+    </None>
+    <None Include="Tree\Rules\SelectWhereRuleExtensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SelectWhereRuleExtensions.cs</LastGenOutput>
+    </None>
+    <None Include="Tree\Rules\TypizedDecorArray.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TypizedDecorArray.cs</LastGenOutput>
+    </None>
+    <None Include="Tree\Rules\TypizedNodeArray.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TypizedNodeArray.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

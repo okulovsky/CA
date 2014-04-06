@@ -1,7 +1,7 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
@@ -10,7 +10,7 @@ using AIRLab.CA.Tree.Nodes;
 using AIRLab.CA.Tree.Operators.Arithmetic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.TreeTests
+namespace AIRLab.CA.Tests.TreeTests
 {
     [TestClass]
     public class ComplexTests : Tests
@@ -33,7 +33,7 @@ namespace Tests.TreeTests
             Assert.AreEqual(
                  new ScalarProduct<double>(
                      new Minus<double>(
-                         VariableNode.Make<double>(0, "x"), Constant.Double(5.0)), 
+                         VariableNode.Make<double>(0, "x"), new Constant<double>(5.0)), 
                      VariableNode.Make<double>(1, "y")).ToString(),
                  SimplifyBinaryExpression(expression.Body).ToString());
         }

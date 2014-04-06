@@ -1,7 +1,7 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
@@ -14,7 +14,7 @@ namespace AIRLab.CA.Tree.Operators
     public class UnaryOperator : Node
     {
         public UnaryOperator(Type type, INode child, Func<Expression, Expression> generator, string symbol)
-            : base (child)
+            : base(child)
         {
             Type = type;
             _symbol = symbol;
@@ -23,18 +23,19 @@ namespace AIRLab.CA.Tree.Operators
 
         public override Expression BuildExpression()
         {
-            var arguments = Expression.Parameter(typeof(IList));
-            return Expression.Lambda (Expression.Convert(
+            var arguments = Expression.Parameter(typeof (IList));
+            return Expression.Lambda(Expression.Convert(
                 _generator(
                     Expression.Invoke(Children[0].BuildExpression(), arguments)
-                ), Type), arguments);
+                    ), Type), arguments);
         }
 
         private readonly Func<Expression, Expression> _generator;
-        readonly string _symbol;
+        private readonly string _symbol;
+
         public override string ToString()
         {
-            return string.Format("({0}{1})", _symbol, Children[0]);
+            return string.Format(_symbol, Children[0]);
         }
     }
 }

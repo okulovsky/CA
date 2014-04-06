@@ -1,0 +1,43 @@
+<#@ template language="C#" #>
+<#@ output extension=".cs" encoding="utf-8" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Text" #>
+// ComputerAlgebra Library
+
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
+
+using System;
+using AIRLab.CA.Tree.Nodes;
+
+namespace AIRLab.CA.Tree.Rules
+{
+    public static class SelectWhereRuleExtensions
+    {
+<# for(int i = 0; i <= 12; i++) 
+{
+	var builder = new StringBuilder();
+
+	for(int j = 0; j <= i; j++) 
+	{
+		builder.Append("T");
+		builder.Append(j);
+		if(j != i) 
+		{
+			builder.Append(", ");
+		}
+	}
+
+	var T = builder.ToString();
+#>
+        public static Rule Mod<<#= T #>>(this ISelectWhereRule<<#= T #>> rule, Action<ITypizedDecorArray<<#= T #>>> replace)
+<#     for(int j = 0; j <= i; j++) { #>
+            where T<#= j #> : INode 
+<#     } #>
+        {
+            return new Rule(rule.SelectRule.NewRule.Name, rule.SelectRule.NewRule.Tags, rule.SelectRule.Selector, z => rule.Invoke(z), z => replace((ITypizedDecorArray<<#= T #>>)z));
+        }
+
+<# } #>
+    }
+}

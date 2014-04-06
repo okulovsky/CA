@@ -1,15 +1,16 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using AIRLab.CA;
+using AIRLab.CA.ExpressionConverters;
+using AIRLab.CA.Groups;
 using AIRLab.CA.Tree.Rules;
-using AIRLab.CA.Tree.Tools;
 
 namespace ResolutionDemo
 {
@@ -18,8 +19,8 @@ namespace ResolutionDemo
         static void Main()
         {
             //Type two clauses in SNF without quantifiers
-            Expression<Func<int,int,int,int,ComputerAlgebraBoolean>> exp = (x, y, z, u) => !P(x, y) | Q(z, g(u)) | R(z, f(u));
-            Expression<Func<int, int, ComputerAlgebraBoolean>> gypotesis = (x, u) => !R(x, f(u)) | P(b, h(a));
+            Expression<Func<int, int, int, int, BooleanGroup>> exp = (x, y, z, u) => !P(x, y) | Q(z, g(u)) | R(z, f(u));
+            Expression<Func<int, int, BooleanGroup>> gypotesis = (x, u) => !R(x, f(u)) | P(b, h(a));
 
             var expNode = Expressions2LogicTree.Parse(exp);
             var gypotesisNode = Expressions2LogicTree.Parse(gypotesis);

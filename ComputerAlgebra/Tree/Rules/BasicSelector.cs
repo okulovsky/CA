@@ -1,7 +1,7 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
@@ -11,13 +11,10 @@ using AIRLab.CA.Tree.Nodes;
 
 namespace AIRLab.CA.Tree.Rules
 {
-
-    partial class BasicSelector
+    class BasicSelector
     {
         
         #region Selector instructions preparation
-
-    
         public class LetterInstruction
         {
             /// <summary>
@@ -64,16 +61,7 @@ namespace AIRLab.CA.Tree.Rules
 
             static IEnumerable<INode> FilterArity(int arity, IEnumerable<INode> bs)
             {
-                foreach (var e in bs)
-                {
-                    if (
-                        (arity == 0 && !e.HasChildren()) ||
-                        (arity > 0 && e.HasChildren() && e.Children.Length == arity)
-                        )
-                    {
-                        yield return e;
-                    }
-                }
+                return bs.Where(e => (arity == 0 && !e.HasChildren()) || (arity > 0 && e.HasChildren() && e.Children.Length == arity));
             }
 
             IEnumerable<INode> FilterBrothers(INode[] current, IEnumerable<INode> bs)
@@ -137,15 +125,13 @@ namespace AIRLab.CA.Tree.Rules
             }
         }
 
-
-
         public class SelectIntruction
         {
             public int ArrayLength;
             public List<LetterInstruction> Letters = new List<LetterInstruction>();
         }
 
-        public static SelectIntruction PrepareInstructions(SelectClauseNode parseRoot)
+        public static SelectIntruction PrepareInstructions(ISelectClauseNode parseRoot)
         {
             var res = new SelectIntruction {ArrayLength = parseRoot.GetList().Select(z => z.Letter).Max() + 1};
             foreach (var e in parseRoot.GetList())
@@ -166,9 +152,9 @@ namespace AIRLab.CA.Tree.Rules
                 {
                     if (e.Children.Count != 0)
                     {
-                        var sub = Math.Sign(e.Children.Where(z => z.Recursive == LetterRecursionType.Subtree).Count());
-                        var child = Math.Sign(e.Children.Where(z => z.Recursive == LetterRecursionType.Children).Count());
-                        var clear = Math.Sign(e.Children.Where(z => z.Recursive == LetterRecursionType.No).Count());
+                        var sub = Math.Sign(e.Children.Count(z => z.Recursive == LetterRecursionType.Subtree));
+                        var child = Math.Sign(e.Children.Count(z => z.Recursive == LetterRecursionType.Children));
+                        var clear = Math.Sign(e.Children.Count(z => z.Recursive == LetterRecursionType.No));
                         if (sub + child + clear > 1) throw new Exception("Error in rule: letter " + (char)('A' + e.Letter) + " must have only one type of childs (for example A(?B,.C) is not acceptable)");
                         if (clear != 0)
                             ins.Arity = e.Children.Count;
@@ -181,22 +167,16 @@ namespace AIRLab.CA.Tree.Rules
             }
             return res;
         }
-    
-    
-
+        
         #endregion
 
         readonly SelectIntruction _instruction;
 
-
-
-        public BasicSelector(SelectClauseNode clause)
+        public BasicSelector(ISelectClauseNode clause)
         {
             _instruction = PrepareInstructions(clause);
         }
 
-       
-        
         public IEnumerable<INode[]> Select(INode root)
         {
             var result = new INode[_instruction.ArrayLength];
@@ -221,7 +201,6 @@ namespace AIRLab.CA.Tree.Rules
                     continue;
                 }
                 _instruction.Letters[currentInstruction].Reset();
-                continue;
             }
         }
     }

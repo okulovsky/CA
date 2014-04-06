@@ -1,14 +1,13 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System.Collections.Generic;
 using System.Linq;
-using AIRLab.CA.Tree;
-using AIRLab.CA.Tools;
 using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Tools;
 
 namespace AIRLab.CA.Resolution
 {

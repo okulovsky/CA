@@ -1,7 +1,7 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace AIRLab.CA.Tree.RulesCollection
 {
     public class DifferentiationRules : SelectClauseWriter
     {
-        public static IEnumerable<Rule> Get()
+        public static IEnumerable<IRule> Get()
         {
             yield return Rule
                .New("d(-U)/dx", StdTags.Differentiation, StdTags.Algebraic)
@@ -52,15 +52,15 @@ namespace AIRLab.CA.Tree.RulesCollection
                                 new Dif<double>(z.C.Node, z.E.Node), z.D.Node),
                             new ScalarProduct<double>(
                                 new Dif<double>((INode)z.D.Node.Clone(), (VariableNode)z.E.Node.Clone()), (INode)z.C.Node.Clone())),
-                        new Pow<double>((INode)z.D.Node.Clone(), Constant.Double(2.0)))));
+                        new Pow<double>((INode)z.D.Node.Clone(), new Constant<double>(2.0)))));
 
             yield return Rule
                 .New("d(U^c)/dx", StdTags.Differentiation, StdTags.Algebraic)
                 .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
                 .Where<Dif<double>, Pow<double>, INode, Constant<double>, VariableNode>()
                 .Mod(z => z.A.Replace(new ScalarProduct<double>(new ScalarProduct<double>(
-                    Constant.Double(z.D.Node.Value),
-                    new Pow<double>(z.C.Node, Constant.Double(z.D.Node.Value - 1))), new Dif<double>((INode)z.C.Node.Clone(), (VariableNode)z.E.Node.Clone()))));
+                    new Constant<double>(z.D.Node.Value),
+                    new Pow<double>(z.C.Node, new Constant<double>(z.D.Node.Value - 1))), new Dif<double>((INode)z.C.Node.Clone(), (VariableNode)z.E.Node.Clone()))));
 
             yield return Rule
                .New("d(U^V)/dx", StdTags.Differentiation, StdTags.Algebraic)
@@ -84,19 +84,19 @@ namespace AIRLab.CA.Tree.RulesCollection
                 .New("dx/dx", StdTags.Differentiation, StdTags.Deductive, StdTags.Algebraic)
                 .Select(AnyA[ChildB, ChildC])
                 .Where<Dif<double>, VariableNode, VariableNode>(z => z.B.Index == z.C.Index)
-                .Mod(z => z.A.Replace(Constant.Double(1.0)));
+                .Mod(z => z.A.Replace(new Constant<double>(1.0)));
 
             yield return Rule
                 .New("dy/dx", StdTags.Differentiation, StdTags.Deductive, StdTags.Algebraic)
                 .Select(AnyA[ChildB, ChildC])
                 .Where<Dif<double>, VariableNode, VariableNode>(z => z.B.Index != z.C.Index)
-                .Mod(z => z.A.Replace(Constant.Double(0.0)));
+                .Mod(z => z.A.Replace(new Constant<double>(0.0)));
 
             yield return Rule
                 .New("dc/dx", StdTags.Differentiation, StdTags.Deductive, StdTags.Algebraic)
                 .Select(AnyA[ChildB, ChildC])
                 .Where<Dif<double>, Constant<double>, VariableNode>()
-                .Mod(z => z.A.Replace(Constant.Double(0.0)));
+                .Mod(z => z.A.Replace(new Constant<double>(0.0)));
         }
     }
 }

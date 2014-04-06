@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿// ComputerAlgebra Library
+//
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
+//
+
+using System.Collections.Generic;
 using AIRLab.CA.Tree.Nodes;
 using AIRLab.CA.Tree.Operators.Arithmetic;
 using AIRLab.CA.Tree.Rules;
@@ -7,14 +13,14 @@ namespace AIRLab.CA.Tree.RulesCollection
 {
     public class FieldFactory<TField> : SelectClauseWriter
     {
-        public IEnumerable<Rule> Create(Constant<TField> additiveIdentity, Constant<TField> multiplicativeIdentity)
+        public IEnumerable<IRule> Create(Constant<TField> additiveIdentity, Constant<TField> multiplicativeIdentity)
         {
             var additiveIdentities = new List<Constant<TField>>{additiveIdentity};
             var multiplicativeIdentities = new List<Constant<TField>> {multiplicativeIdentity};
             return Create(additiveIdentities, multiplicativeIdentities);
         }
 
-        public IEnumerable<Rule> Create(IEnumerable<Constant<TField>> additiveIdentities, IEnumerable<Constant<TField>> multiplicativeIdentities)
+        public IEnumerable<IRule> Create(IEnumerable<Constant<TField>> additiveIdentities, IEnumerable<Constant<TField>> multiplicativeIdentities)
         {
             // a+(d+e) => (a+d)+e
             yield return Rule

@@ -1,14 +1,14 @@
 // ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using AIRLab.CA.Tree.Nodes;
 using AIRLab.CA.Tree.Operators.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.TreeTests
+namespace AIRLab.CA.Tests.TreeTests
 {
     [TestClass]
     public class SimpleLogicTests : Tests
@@ -76,7 +76,7 @@ namespace Tests.TreeTests
         {
             INode root = new Or(new Not(VariableNode.Make<bool>(0, "x")), VariableNode.Make<bool>(0, "x"));
             Assert.AreEqual(
-                Constant.Bool(true).ToString(),
+                new Constant<bool>(true).ToString(),
                 SimplifyLogicTree(root).ToString());
         }
         

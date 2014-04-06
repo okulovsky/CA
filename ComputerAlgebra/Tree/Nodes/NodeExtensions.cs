@@ -1,9 +1,15 @@
-﻿using System;
+﻿// ComputerAlgebra Library
+//
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
+//
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA.Tools;
+using AIRLab.CA.Tree.Tools;
 
 namespace AIRLab.CA.Tree.Nodes
 {
@@ -28,7 +34,7 @@ namespace AIRLab.CA.Tree.Nodes
 
         public static int GetOperationCount(this INode node)
         {
-            return node.Children == null ? 1 : 1 + node.Children.Select(z => GetOperationCount(z)).Sum();
+            return node.Children == null ? 1 : 1 + node.Children.Select(GetOperationCount).Sum();
         }
 
         public static int GetVariableCount(this INode node)

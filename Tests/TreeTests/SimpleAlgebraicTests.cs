@@ -1,8 +1,14 @@
+// ComputerAlgebra Library
+//
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
+//
+
 using System;
 using System.Linq.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.TreeTests
+namespace AIRLab.CA.Tests.TreeTests
 {
     [TestClass]
     public class SimpleAlgebraicTests : Tests
@@ -33,7 +39,7 @@ namespace Tests.TreeTests
         {
             Expression<Del1> expression = x => 0 - x;
             Assert.AreEqual(
-                "(-x)",
+                "-(x)",
                 SimplifyBinaryExpression(expression).ToString());
         }
 
@@ -174,11 +180,11 @@ namespace Tests.TreeTests
         {
             Expression<Del1> expression = (x) => (x + 5) + 5;
             Assert.AreEqual(
-                "(x + 10)",
+                "(x+10)",
                 SimplifyBinaryExpression(expression).ToString());
             expression = (x) => 3 + (x + 1);
             Assert.AreEqual(
-                "(x + 4)",
+                "(x+4)",
                 SimplifyBinaryExpression(expression).ToString());
         }
 
@@ -192,11 +198,11 @@ namespace Tests.TreeTests
                 SimplifyBinaryExpression(expression).ToString());
             expression = (x) => 3 + (x - 1);
             Assert.AreEqual(
-                "(x + 2)",
+                "(x+2)",
                 SimplifyBinaryExpression(expression).ToString());
             expression = (x) => 3 + (1 - x);
             Assert.AreNotEqual(
-                "(x + 2)",
+                "(x+2)",
                 SimplifyBinaryExpression(expression).ToString());
         }
     }

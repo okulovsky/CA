@@ -1,7 +1,7 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
@@ -14,7 +14,7 @@ namespace AIRLab.CA.Tree.RulesCollection
 {
     public class AlgebraicRules : SelectClauseWriter
     {
-        public static IEnumerable<Rule> Get()
+        public static IEnumerable<IRule> Get()
         {
             yield return Rule
                 .New("*0", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
@@ -74,7 +74,7 @@ namespace AIRLab.CA.Tree.RulesCollection
                 .New("^0", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
                 .Where<Pow<double>, INode, Constant<double>>(z => z.C.Value.Equals(0d))
-                .Mod(z => z.A.Replace(Constant.Double(1)));
+                .Mod(z => z.A.Replace(new Constant<double>(1)));
 
             yield return Rule
                 .New("(-0)", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
@@ -86,43 +86,43 @@ namespace AIRLab.CA.Tree.RulesCollection
                 .New("C+C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
                 .Where<Addition<double>, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value + z.C.Node.Value)));
+                .Mod(z => z.A.Replace(new Constant<double>(z.B.Node.Value + z.C.Node.Value)));
 
             yield return Rule
                 .New("C*C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
                 .Where<ScalarProduct<double>, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value * z.C.Node.Value)));
+                .Mod(z => z.A.Replace(new Constant<double>(z.B.Node.Value * z.C.Node.Value)));
 
             yield return Rule
                 .New("C-C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
                 .Where<Minus<double>, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value - z.C.Node.Value)));
+                .Mod(z => z.A.Replace(new Constant<double>(z.B.Node.Value - z.C.Node.Value)));
 
             yield return Rule
                 .New("C^C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
                 .Where<Pow<double>, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(Constant.Double(Math.Pow(z.B.Node.Value, z.C.Node.Value))));
+                .Mod(z => z.A.Replace(new Constant<double>(Math.Pow(z.B.Node.Value, z.C.Node.Value))));
 
             yield return Rule
                 .New("C/C", StdTags.SafeResection, StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[B, C])
                 .Where<Divide<double>, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(Constant.Double(z.B.Node.Value / z.C.Node.Value)));
+                .Mod(z => z.A.Replace(new Constant<double>(z.B.Node.Value / z.C.Node.Value)));
 
             yield return Rule
                 .New("(x+C)+C", StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[ChildB[ChildC, ChildD], ChildE])
                 .Where<Addition, Addition, INode, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(new Addition<double>(z.C.Node, Constant.Double(z.D.Node.Value + z.E.Node.Value))));
+                .Mod(z => z.A.Replace(new Addition<double>(z.C.Node, new Constant<double>(z.D.Node.Value + z.E.Node.Value))));
 
             yield return Rule
                 .New("(x-C)+C", StdTags.Algebraic, StdTags.Simplification)
                 .Select(AnyA[ChildB[C, D], ChildE])
                 .Where<Addition, Minus, INode, Constant<double>, Constant<double>>()
-                .Mod(z => z.A.Replace(new Addition<double>(z.C.Node, Constant.Double(z.E.Node.Value - z.D.Node.Value))));
+                .Mod(z => z.A.Replace(new Addition<double>(z.C.Node, new Constant<double>(z.E.Node.Value - z.D.Node.Value))));
         }
     }
 }

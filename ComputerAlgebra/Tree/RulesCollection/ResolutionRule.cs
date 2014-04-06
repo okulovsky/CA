@@ -1,7 +1,7 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System.Linq;
@@ -14,7 +14,7 @@ namespace AIRLab.CA.Tree.RulesCollection
 {
     public class ResolutionRule : SelectClauseWriter
     {
-        public static Rule Get()
+        public static IRule Get()
         {
             return Rule
                 .New("Resolve", StdTags.Inductive, StdTags.Logic, StdTags.SafeResection)
@@ -28,7 +28,7 @@ namespace AIRLab.CA.Tree.RulesCollection
         /// Using resolution rule: A V B, C V !B |- A V C. 
         /// </summary>
         /// <param name="z"></param>
-        private static void Modificator(TypizedDecorArray<MultipleOr, SkolemPredicateNode, MultipleOr, SkolemPredicateNode> z)
+        private static void Modificator(ITypizedDecorArray<MultipleOr, SkolemPredicateNode, MultipleOr, SkolemPredicateNode> z)
         {
             var rules = UnificationService.GetUnificationRules(z.B.Node, z.D.Node);
             UnificationService.Unificate(z.A.Node, rules);

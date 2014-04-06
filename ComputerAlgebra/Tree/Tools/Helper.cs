@@ -1,7 +1,7 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
@@ -10,7 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace AIRLab.CA.Tools
+namespace AIRLab.CA.Tree.Tools
 {
     public static class Helper
     {
@@ -48,7 +48,7 @@ namespace AIRLab.CA.Tools
 
         public static IEnumerable<double> Range(double min, double max, double step)
         {
-            for (double c = min; c <= max; c += step)
+            for (var c = min; c <= max; c += step)
                 yield return c;
         }
 
@@ -83,15 +83,12 @@ namespace AIRLab.CA.Tools
                        : name.Remove(name.IndexOf('`'));
         }
 
-        public static void AddRange<T, S>(this Dictionary<T, S> source, Dictionary<T, S> collection)
+        public static void AddRange<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> collection)
         {
-            foreach (var item in collection)
-            {
-                if (!source.ContainsKey(item.Key))
-                {
-                    source.Add(item.Key, item.Value);
-                }
-            }
+            collection
+                .Where(item => !source.ContainsKey(item.Key))
+                .ToList()
+                .ForEach(item => source.Add(item.Key, item.Value));
         }
     }
 }

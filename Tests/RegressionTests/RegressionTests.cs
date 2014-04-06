@@ -1,17 +1,16 @@
 // ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
-using AIRLab.CA;
 using AIRLab.CA.Regression;
-using AIRLab.CA.Tools;
 using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.RegressionTests
+namespace AIRLab.CA.Tests.RegressionTests
 {
     [TestClass]
     public class RegressionTests
@@ -22,7 +21,7 @@ namespace Tests.RegressionTests
         [TestMethod]
         public void TwoVarsTreeOps()
         {
-            var service = new SampleGenerator(2, 3, 0.001);
+            var service = new SampleGenerator.SampleGenerator(2, 3, 0.001);
             var formula = service.GetFormula();
             var noiseFormula = formula.Clone<INode>();
             NoisyConstants(noiseFormula);

@@ -1,7 +1,7 @@
-// ComputerAlgebra Library
+﻿// ComputerAlgebra Library
 //
-// Copyright � Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace AIRLab.CA.Tree.RulesCollection
 {
     public class LogicRules : SelectClauseWriter
     {
-        public static IEnumerable<Rule> Get()
+        public static IEnumerable<IRule> Get()
         {
             yield return Rule
                 .New("&&0", StdTags.Inductive, StdTags.Logic, StdTags.SafeResection, StdTags.Simplification)
@@ -56,7 +56,7 @@ namespace AIRLab.CA.Tree.RulesCollection
                 .New("!x V x", StdTags.Inductive, StdTags.Logic, StdTags.SafeResection, StdTags.Simplification)
                 .Select(A[ChildB[ChildC], ChildD])
                 .Where<Or, Not, INode, INode>(z => UnificationService.IsSame(z.C, z.D, true))
-                .Mod(z => z.A.Replace(Constant.Bool(true)));
+                .Mod(z => z.A.Replace(new Constant<bool>(true)));
         }
     }
 }

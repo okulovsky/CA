@@ -1,7 +1,7 @@
-﻿// ComputerAlgebra Library
+// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright � Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
@@ -13,34 +13,30 @@ namespace AIRLab.CA.Tree.Operators
 {
     public class BinaryOperator : Node
     {
-        public BinaryOperator(Type type, INode child1, INode child2, Func<Expression, Expression, Expression> generator, string symbol, bool isPrefixOperator) 
-            : base(child1, child2)
+        private readonly Func<Expression, Expression, Expression> _generator;
+        private readonly string _format;
+
+        public BinaryOperator(Type type, INode child1, INode child2, Func<Expression, Expression, Expression> generator,
+            string format) : base(child1, child2)
         {
             Type = type;
             _generator = generator;
-            _symbol = symbol;
-            IsPrefixOperator = isPrefixOperator;
+            _format = format;
         }
 
         public override Expression BuildExpression()
         {
-            var arguments = Expression.Parameter(typeof (IList));
-            var invoked1 = Expression.Invoke(Children[0].BuildExpression(), arguments);
-            var invoked2 = Expression.Invoke(Children[1].BuildExpression(), arguments);
-            var generated = _generator(invoked1, invoked2);
-            var converted = Expression.Convert(generated, Type);
-            return Expression.Lambda(converted, arguments);
+            var arguments = Expression.Parameter(typeof(IList));
+            return Expression.Lambda(Expression.Convert(
+                _generator(
+                    Expression.Invoke(Children[0].BuildExpression(), arguments),
+                    Expression.Invoke(Children[1].BuildExpression(), arguments)
+                    ), Type), arguments);
         }
 
-        private readonly Func<Expression, Expression, Expression> _generator;
-        private readonly string _symbol;
-        
         public override string ToString()
         {
-            var format = IsPrefixOperator ? "{0}({1},{2})" : "({1} {0} {2})";
-            return string.Format(format, _symbol, Children[0], Children[1]);
+            return string.Format(_format, Children[0], Children[1]);
         }
-
-        public bool IsPrefixOperator { get; private set; }
     }
 }

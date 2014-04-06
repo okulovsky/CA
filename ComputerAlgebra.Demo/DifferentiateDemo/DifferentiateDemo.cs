@@ -1,14 +1,13 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
 using System.Linq.Expressions;
 using AIRLab.CA;
-using AIRLab.CA.Tools;
-using AIRLab.CA.Tree.Tools;
+using AIRLab.CA.ExpressionConverters;
 
 namespace DifferentiateDemo
 {

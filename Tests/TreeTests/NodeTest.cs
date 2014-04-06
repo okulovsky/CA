@@ -1,7 +1,7 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using AIRLab.CA.Tree.Nodes;
@@ -9,7 +9,7 @@ using AIRLab.CA.Tree.Operators.Arithmetic;
 using AIRLab.CA.Tree.Operators.Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.TreeTests
+namespace AIRLab.CA.Tests.TreeTests
 {
     [TestClass]
     public class NodeTest
@@ -19,18 +19,18 @@ namespace Tests.TreeTests
         {
             var tree = new ScalarProduct<int>(VariableNode.Make<int>(0, "x"),
                                                    new Addition<int>(VariableNode.Make<int>(1, "y"),
-                                                                            Constant.Int(3)));
-            Assert.AreEqual("(x ∙ (y + 3))", tree.ToString());
+                                                                            new Constant<int>(3)));
+            Assert.AreEqual("(x∙(y+3))", tree.ToString());
             var tree2 = new MultipleOr(new PredicateNode("P", VariableNode.Make<int>(0, "x")),
                                                 new PredicateNode("Q", VariableNode.Make<int>(1, "y"), VariableNode.Make<int>(2, "z")),
                                                 new PredicateNode("H", new FunctionNode("f", VariableNode.Make<int>(0, "x")), new FunctionNode("c")));
-            Assert.AreEqual("P(x) V Q(y,z) V H(f(x),c)", tree2.ToString());
+            Assert.AreEqual("P(x) ∨ Q(y,z) ∨ H(f(x),c)", tree2.ToString());
         }
 
         [TestMethod]
         public void NodesKeepProperInfo()
         {
-            var constant = Constant.Int(1);
+            var constant = new Constant<int>(1);
             Assert.AreEqual(constant.Value, 1);
             Assert.AreEqual(constant.Type, typeof(int));
             Assert.AreEqual(constant.Children.Length, 0);

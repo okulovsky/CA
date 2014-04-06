@@ -1,16 +1,15 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
-using AIRLab.CA.Tools;
-using AIRLab.CA.Tree;
 using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Tools;
 
 namespace AIRLab.CA.Regression
 {
@@ -24,11 +23,11 @@ namespace AIRLab.CA.Regression
         public int CurrentIteration { get; private set; }
         public double ApproximationError { get; private set; }
 
-        private readonly List<double[]> _inSamples;
-        private readonly List<double> _exactResult;
+        private readonly IList<double[]> _inSamples;
+        private readonly IList<double> _exactResult;
         private readonly double _precision;
         private double _lambda;
-        private List<double> _oldGradient = new List<double>(); 
+        private IList<double> _oldGradient = new List<double>(); 
 
         private const int MaxIterationCount = 1000;
         private bool _success = true;
@@ -37,7 +36,7 @@ namespace AIRLab.CA.Regression
         private const String VarName = "c";
         private static int _index;
 
-        public RegressionAlgorithm(INode expression, List<double[]> arguments, List<double> result, double accurance = 0.0001, double lambda = 0.0001)
+        public RegressionAlgorithm(INode expression, IList<double[]> arguments, IList<double> result, double accurance = 0.0001, double lambda = 0.0001)
         {
             _inSamples = arguments;
             _exactResult = result;
@@ -107,7 +106,7 @@ namespace AIRLab.CA.Regression
             return Formula;
         }
 
-        private double GetApproximationError(List<double> constantSet)
+        private double GetApproximationError(IList<double> constantSet)
         {
             double sum = 0;
             for (var i = 0; i < _inSamples.Count; i++)
@@ -131,7 +130,7 @@ namespace AIRLab.CA.Regression
 
             for (var c = _index - InConstant.Count; c < _index; c++)
             {
-                var funcDiff = ComputerAlgebra.Differentiate(Formula, c).ComplileDelegate<double>();
+                var funcDiff = CA.ComputerAlgebra.Differentiate(Formula, c).ComplileDelegate<double>();
                 double step = 0;
 
                 for (var i = 0; i < _inSamples.Count; i++)
@@ -212,7 +211,7 @@ namespace AIRLab.CA.Regression
                 return;
 
             childIndex = node.Parent.IndexOfChild(node);
-            newVar = Constant.Double(InConstant[((VariableNode)node).Index-(_index - InConstant.Count)]);
+            newVar = new Constant<double>(InConstant[((VariableNode)node).Index-(_index - InConstant.Count)]);
             node.Parent.Children[childIndex] = newVar;
         }
     }
