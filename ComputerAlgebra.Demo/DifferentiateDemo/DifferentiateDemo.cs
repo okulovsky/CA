@@ -1,47 +1,34 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
 using System.Linq.Expressions;
 using AIRLab.CA;
-using AIRLab.CA.Tools;
+using AIRLab.CA.ExpressionConverters;
 
 namespace DifferentiateDemo
 {
     class DifferentiateDemo
     {
-        protected delegate double del3(double p1, double p2, double p3);
         static void Main()
         {
-            try
-            {
-                //Type the function you want to differentiate
-                Expression<del3> function = (x, y, z) => Math.Pow(x, 3)*y - Math.Pow(x, y)+5*z;
-                var node = Expressions2Tree.Parse(function);
-                Console.WriteLine("Initial function:\nF(x,y,z) = " + node);
+            //Type the function you want to differentiate
+            Expression<Func<double, double, double, double>> function = (x, y, z) => Math.Pow(x, 3) * y - Math.Pow(x, y) + 5 * z;
+            var node = Expressions2Tree.Parse(function);
 
-                // Differentiation
-                Console.Write("\ndF/dx = ");
-                var result = ComputerAlgebra.Differentiate(node, variable : "x");
-                Console.WriteLine(result);
+            // Differentiation
+            var resultFromDiffX = ComputerAlgebra.Differentiate(node, variable : "x");
+            var resultFromDiffY = ComputerAlgebra.Differentiate(node, variable: "y");
+            var resultFromDiffZ = ComputerAlgebra.Differentiate(node, variable: "z");
 
-                Console.Write("\ndF/dy = ");
-                result = ComputerAlgebra.Differentiate(node, variable: "y");
-                Console.WriteLine(result);
-
-                Console.Write("\ndF/dz = ");
-                result = ComputerAlgebra.Differentiate(node, variable: "z");
-                Console.WriteLine(result);
-
-                Console.ReadKey();
-            } catch(CAException e)
-            {
-                Console.WriteLine(e.Message);
-                Console.ReadKey();
-            }
+            // Output
+            Console.WriteLine("Initial function:{1}F(x,y,z) = {0}{1}", node, Environment.NewLine);
+            Console.WriteLine("dF/dx = {0}{1}", resultFromDiffX, Environment.NewLine);
+            Console.WriteLine("dF/dy = {0}{1}", resultFromDiffY, Environment.NewLine);
+            Console.WriteLine("dF/dz = {0}{1}", resultFromDiffZ, Environment.NewLine);
         }
     }
 }

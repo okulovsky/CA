@@ -1,21 +1,20 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
 
-namespace AIRLab.CA.Rules
+namespace AIRLab.CA.Tree.Rules
 {
-   
-    public class ComplexSelector
+    public class ComplexSelector : IComplexSelector
     {
         readonly List<BasicSelector> _selectors;
-        public ComplexSelector(params SelectClauseNode[] selectClauses)
+        public ComplexSelector(params ISelectClauseNode[] selectClauses)
         {
             _selectors = selectClauses.Select(z => new BasicSelector(z)).ToList();
         }
@@ -36,7 +35,7 @@ namespace AIRLab.CA.Rules
             return new SelectOutput(n, roots);
         }
 
-        public IEnumerable<SelectOutput> Select(params INode[] roots)
+        public IEnumerable<ISelectOutput> Select(params INode[] roots)
         {
             if (roots.Length != _selectors.Count)
             {

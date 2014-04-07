@@ -1,39 +1,29 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
 using System.Linq.Expressions;
 using AIRLab.CA;
-using AIRLab.CA.Tools;
+using AIRLab.CA.ExpressionConverters;
 
 namespace SimplificationDemo
 {
     class SimplificationDemo
     {
-        protected delegate double del4(double p1, double p2, double p3, double p4);
         static void Main()
         {
-           try
-            {
-               //Type the function you want to simplify
-                Expression<del4> function = (x, y, z, u) => (x+42)/1 + y*0/(z-0) + 43 - Math.Pow(x, 0) * Math.Pow(u, 1)/(0+5);
-                var node = Expressions2Tree.Parse(function);
-                Console.WriteLine("Initial function:\nF(x,y,z,u) = " + node);
-                
-                // Simplification
-                var result = ComputerAlgebra.Simplify(node);
-                Console.WriteLine("Result of simplification:\n" + result);
+            //Type the function you want to simplify
+            Expression<Func<double, double, double, double, double>> function = 
+                (x, y, z, u) => (x+42)/1 + y*0/(z-0) + 43 - Math.Pow(x, 0) * Math.Pow(u, 1)/(0+5);
 
-                Console.ReadKey();
-            }
-            catch (CAException e)
-            {
-                Console.WriteLine(e.Message);
-                Console.ReadKey(true);
-            }
+            var tree = Expressions2Tree.Parse(function);
+            var simplifiedTree = ComputerAlgebra.Simplify(tree);
+
+            Console.WriteLine("Initial function:{1}F(x,y,z,u) = {0}{1}", tree, Environment.NewLine);
+            Console.WriteLine("Result of simplification:{1}{0}", simplifiedTree, Environment.NewLine);
         }
     }
 }

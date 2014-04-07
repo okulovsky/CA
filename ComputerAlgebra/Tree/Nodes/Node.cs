@@ -1,17 +1,14 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA.Tools;
+using AIRLab.CA.Tree.Tools;
 
-namespace AIRLab.CA.Tree
+namespace AIRLab.CA.Tree.Nodes
 {
     public abstract class Node : INode
     {
@@ -24,13 +21,11 @@ namespace AIRLab.CA.Tree
 
         protected Node(int childCount)
         {
-            children = new ChildrenCollection(this, childCount);
+            Children = new ChildrenCollection(this, childCount);
         }
 
-        internal Node parent;
-        internal ChildrenCollection children;
-        public IChildrenCollection Children { get { return children; } }
-        public INode Parent { get { return parent; } }
+        public IChildrenCollection Children { get; private set; }
+        public INode Parent { get; set; }
         public Type Type { get; protected set; }
         public abstract Expression BuildExpression();
 
@@ -39,78 +34,23 @@ namespace AIRLab.CA.Tree
             var clone = (Node)MemberwiseClone();
             if (Children != null)
             {
-                clone.children = new ChildrenCollection(clone, children.Length);
+                clone.Children = new ChildrenCollection(clone, Children.Length);
                 for (var i = 0; i < clone.Children.Length; ++i)
                 {
-                    clone.Children[i] = (Node)(Children[i].Clone());
+                    clone.Children[i] = (INode)(Children[i].Clone());
                 }
             }
-            clone.parent = null;
+            clone.Parent = null;
             return clone;
         }
 
         public void MakeRoot()
         {
-            if (parent == null) return;
-            var ind = parent.Children.IndexOf(this);
-            parent.Children[ind] = null;
+            if (Parent == null) return;
+            var ind = Parent.Children.IndexOf(this);
+            Parent.Children[ind] = null;
         }
+
+        // public abstract string ToLatex();
     }
-   
-    public class ChildrenCollection : IChildrenCollection
-    {
-        private readonly Node _owner;
-        private readonly Node[] _childrenArray;
-        public ChildrenCollection(Node owner, int length)
-        {
-            _owner = owner;
-            _childrenArray = new Node[length];
-        }
-
-        private void AddChild(Node child, int index)
-        {
-            if (child == null) return;
-            if (child.Parent != null)
-                child.parent.children.ReleaseChild(Array.IndexOf(child.parent.children._childrenArray, child));
-            _childrenArray[index] = child;
-            child.parent = _owner;
-        }
-
-        private void ReleaseChild(int index)
-        {
-            if (_childrenArray[index] == null) return;
-            if (_childrenArray[index].parent == _owner)
-                _childrenArray[index].parent = null;
-            _childrenArray[index] = null;
-        }
-
-        public INode this[int index]
-        {
-            get
-            {
-                return _childrenArray[index];
-            }
-            set
-            {
-                var n = (Node)value;
-                ReleaseChild(index);
-                AddChild(n, index);
-            }
-        }
-
-        public int Length
-        {
-            get { return _childrenArray.Length; }
-        }
-
-        public IEnumerator<INode> GetEnumerator()
-        {
-            return _childrenArray.Cast<INode>().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _childrenArray.GetEnumerator();
-        }
-   }
 }

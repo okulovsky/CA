@@ -1,22 +1,23 @@
-// ComputerAlgebra Library
+﻿// ComputerAlgebra Library
 //
-// Copyright � Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA.Rules;
-using AIRLab.CA.Tree;
+using AIRLab.CA.Tree.Nodes;
+using AIRLab.CA.Tree.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.TreeTests
+namespace AIRLab.CA.Tests.TreeTests
 {
     [TestClass]
     public class RulesTest : SelectClauseWriter
     {
-        INode _root1 =
+        readonly INode _root1 =
                 new TestOp(
                     new TestOp(
                         new TestOp(
@@ -30,7 +31,7 @@ namespace Tests.TreeTests
                             new TestOp(),
                             new TestOp())));
 
-        INode _root2 =
+        readonly INode _root2 =
             new TestOp(
                 new TestOp(
                     new TestOp(),
@@ -71,7 +72,7 @@ namespace Tests.TreeTests
         static int _currentNumber;
         private readonly int _number;
 
-        public TestOp(params TestOp[] children)
+        public TestOp(params INode[] children)
             : base(children)
         {
             _number = _currentNumber;
@@ -80,14 +81,13 @@ namespace Tests.TreeTests
 
         public override string ToString()
         {
-            var result = ToLetter().ToString();
-            if (this.HasChildren())
-            {
-                result += "(";
-                for (var i = 0; i < Children.Length; i++)
-                    result += (i == 0 ? "" : ",") + Children[i];
-                result += ")";
-            }
+            var result = ToLetter().ToString(CultureInfo.InvariantCulture);
+            if (!this.HasChildren()) return result;
+
+            result += "(";
+            for (var i = 0; i < Children.Length; i++)
+                result += (i == 0 ? "" : ",") + Children[i];
+            result += ")";
             return result;
         }
 

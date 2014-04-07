@@ -1,0 +1,40 @@
+<#@ template language="C#" #>
+<#@ output extension=".cs" encoding="utf-8" #>
+<#@ import namespace="System" #>
+<# var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; #>
+// ComputerAlgebra Library
+
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
+
+namespace AIRLab.CA.Tree.Rules
+{
+    public class SelectClauseWriter 
+    {
+<# for(int i = 0; i <= 12; i++) { #>
+        public static SelectClauseNode Any<#= letters[i] #>
+        {
+            get
+            {
+                return new SelectClauseNode(<#= i #>, LetterRecursionType.Subtree);
+            }
+        }
+
+        public static SelectClauseNode Child<#= letters[i] #>
+        {
+            get
+            {
+                return new SelectClauseNode(<#= i #>, LetterRecursionType.Children);
+            }
+        }
+
+        public static SelectClauseNode <#= letters[i] #>
+        {
+            get
+            {
+                return new SelectClauseNode(<#= i #>, LetterRecursionType.No);
+            }
+        }
+<# } #>
+    }
+}

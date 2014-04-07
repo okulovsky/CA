@@ -1,36 +1,33 @@
 ﻿// ComputerAlgebra Library
 //
-// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, 2013
-// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com
+// Copyright © Medvedev Igor, Okulovsky Yuri, Borcheninov Jaroslav, Johann Dirry, 2014
+// imedvedev3@gmail.com, yuri.okulovsky@gmail.com, yariksuperman@gmail.com, johann.dirry@aon.at
 //
 
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using AIRLab.CA.Rules;
-using AIRLab.CA.Tools;
 using AIRLab.CA;
+using AIRLab.CA.ExpressionConverters;
+using AIRLab.CA.Groups;
+using AIRLab.CA.Tree.Rules;
 
 namespace ResolutionDemo
 {
     class ResolutionDemo : LogicExpressions
     {
-        delegate CABoolean del2(int x, int y);
-        delegate CABoolean del4(int x, int y, int z, int u);
-
         static void Main()
         {
             //Type two clauses in SNF without quantifiers
-            Expression<del4> exp = (x, y, z, u) => !P(x, y) | Q(z, g(u)) | R(z, f(u));
-            Expression<del2> gypotesis = (x, u) => !R(x, f(u)) | P(b, h(a));
+            Expression<Func<int, int, int, int, BooleanGroup>> exp = (x, y, z, u) => !P(x, y) | Q(z, g(u)) | R(z, f(u));
+            Expression<Func<int, int, BooleanGroup>> gypotesis = (x, u) => !R(x, f(u)) | P(b, h(a));
 
             var expNode = Expressions2LogicTree.Parse(exp);
             var gypotesisNode = Expressions2LogicTree.Parse(gypotesis);
-            Console.WriteLine("First clause: " + expNode);
-            Console.WriteLine("Second clause: " + gypotesisNode);
+            Console.WriteLine("First clause: {0}", expNode);
+            Console.WriteLine("Second clause: {0}", gypotesisNode);
             var result = ComputerAlgebra.Resolve(expNode, gypotesisNode).ToList();
-            Console.WriteLine("Possible resolvents: ["+string.Join(" ; ", result) + "]");
-            Console.ReadKey();
+            Console.WriteLine("Possible resolvents: [{0}]", string.Join(" ; ", result));
         }
     }
 }
